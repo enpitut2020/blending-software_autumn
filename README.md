@@ -4,7 +4,7 @@
 - Framework -> Vue.js
 - Dev Enviroment -> Vue CLI
 - UI Framework -> Vuetify
-- Routing -> router
+- Routing -> vue-router
 
 ## Project setup
 ```
