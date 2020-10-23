@@ -1,12 +1,14 @@
 <template>
-  <v-container>
-    <originalHeader />
-    <cover />
-    <detail />
-    <history />
-    <h1>ホーム画面</h1>
-    <router-link to="/list">Go to List</router-link>
-  </v-container>
+  <v-app>
+    <v-container>
+      <originalHeader />
+      <cover />
+      <detail />
+      <history />
+      <h1>ホーム画面</h1>
+      <router-link to="/list">Go to List</router-link>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
