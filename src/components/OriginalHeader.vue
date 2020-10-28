@@ -28,9 +28,7 @@
           </v-flex>
         </v-container>
 
-        <v-btn icon>
-          <v-icon>mdi-alarm</v-icon>
-        </v-btn>
+        <history />
       </v-app-bar>
             <v-navigation-drawer
         v-model="drawer"
@@ -56,6 +54,7 @@
 </template>
 
 <script>
+import history from "@/components/History.vue";
   export default {
     data () {
       return {
@@ -69,5 +68,8 @@
         drawer: false
       }
     },
+    components: {
+        history
+    }
   }
 </script>
