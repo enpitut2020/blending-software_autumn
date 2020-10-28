@@ -1,7 +1,6 @@
 // ヘッダーのためのコンポーネント
 
 <template>
-  <v-app>
     <header>
       <v-app-bar
         app
@@ -41,16 +40,15 @@
         >
           <v-list-item-group>
             <v-list-item>
-              <v-list-item-title>HOME</v-list-item-title>
+              <v-list-item-title><router-link to="/">HOME</router-link></v-list-item-title>
             </v-list-item>
             <v-list-item>
-              <v-list-item-title>ABOUT</v-list-item-title>
+              <v-list-item-title><router-link to="/about">ABOUT</router-link></v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
     </header>
-  </v-app>
 </template>
 
 <script>
