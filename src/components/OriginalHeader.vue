@@ -1,7 +1,6 @@
 // ヘッダーのためのコンポーネント
 
 <template>
-  <v-app>
     <header>
       <v-app-bar
         app
@@ -50,7 +49,6 @@
         </v-list>
       </v-navigation-drawer>
     </header>
-  </v-app>
 </template>
 
 <script>
