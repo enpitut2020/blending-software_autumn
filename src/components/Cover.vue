@@ -1,11 +1,9 @@
 // 書籍の表紙を表示するためのコンポーネント
 
 <template>
-    <v-app>
         <v-main id="books">
             <v-img class="book" v-for="(image, key) in images" :key="key" v-bind:src="image.path" alt=""></v-img>
         </v-main> 
-    </v-app> 
 </template>
 
 <script>
