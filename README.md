@@ -45,6 +45,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### 10/26（月）
 ### 10/27（火）
 ### 10/28（水）
+- 書籍一覧を見れるようになりました!
 ### 10/29（木）
 ### 10/30（金）
 
