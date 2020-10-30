@@ -48,4 +48,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - 書籍一覧を見れるようになりました!
 ### 10/29（木）
 ### 10/30（金）
+- 書籍の一覧から各書籍の詳細情報を確認できるようになりました!
 
