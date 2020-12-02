@@ -2,17 +2,14 @@
     <div>
         <v-container>
             <v-row v-for="(row_items, row_key) in reshapeItems(items)" :key="row_key" class="book-nav">
-                <v-col v-for="(item, item_key) in row_items" :key="item_key" :class="assignColor(item_key)" id="back-cover" @click="openDetail(item)">
-                    <div><span>{{ item.title }}</span></div>
+                <v-col v-for="(item, item_key) in row_items" :key="item_key" :class="assignColor(item_key)" 
+                id="back-cover" 
+                @click="openDetail(item)"
+                :cols="getBackCoverWidth(item)">
+                  <span>{{ item.title }}</span>
                 </v-col>
                 <detail :item="content" v-show="showDetail" @close="closeDetail"/>
             </v-row>
-        <!-- <ul class="book-nav">
-            <li id="back-cover" v-bind:class="assignColor(index)" v-for="(item, index) in items" :key="item.title" @click="openDetail(item)">
-            <div><span>{{ item.title }}</span></div>
-            </li>
-            <detail :item="content" v-show="showDetail" @close="closeDetail"/>
-        </ul> -->
         </v-container>
     </div>
 </template>
@@ -41,21 +38,21 @@ export default {
                   author:"安里 アサト",
                   summary: "サンマグノリア共和国。そこは日々、隣国である「帝国」の無人兵器“レギオン”による侵略を受けていた。しかしその攻撃に対して、共和国側も同型兵器の開発に成功し、辛うじて犠牲を出すことなく、その脅威を退けていたのだった。そう―表向きは。本当は誰も死んでいないわけではなかった。共和国全85区画の外。“存在しない“第86区””。そこでは「エイティシックス」の烙印を押された少年少女たちが日夜“有人の無人機”として戦い続けていた―。死地へ向かう若者たちを率いる少年・シンと、遙か後方から、特殊通信で彼らの指揮を執る“指揮管制官”となった少女・レーナ。二人の激しくも悲しい戦いと、別れの物語が始まる―!第23回電撃小説大賞“大賞”の栄冠に輝いた傑作、堂々発進!",
                   img_path: require("../assets/images/86―エイティシックス― (電撃文庫).png"),
-                  pages: 200,
+                  pages: 201,
                 },
                 {
                   title: "My Humanity",
                   author:"長谷 敏司",
                   summary: "擬似神経制御言語ITPによる経験伝達と個人の文化的背景との相克を描く「地には豊穣」、ITPによる小児性愛者の矯正がグロテスクな結末を導く「allo,toi,toi」―長篇『あなたのための物語』と同設定の2篇にくわえ、軌道ステーションで起きたテロの顛末にして長篇『BEATLESS』のスピンオフ「Hollow Vision」、自己増殖ナノマシン禍に対峙する研究者を描いた書き下ろし「父たちの時間」の全4篇を収録した著者初の作品集。" ,
                   img_path: require("../assets/images/My Humanity (ハヤカワ文庫JA).png"),
-                  pages: 350,
+                  pages: 401,
                 },
                 {
                   title: "Self-Reference ENGINE",
                   author:"円城 塔",
                   summary: "彼女のこめかみには弾丸が埋まっていて、我が家に伝わる箱は、どこかの方向に毎年一度だけ倒される。老教授の最終講義は鯰文書の謎を解き明かし、床下からは大量のフロイトが出現する。そして小さく白い可憐な靴下は異形の巨大石像へと挑みかかり、僕らは反乱を起こした時間のなか、あてのない冒険へと歩みを進める―軽々とジャンルを越境し続ける著者による驚異のデビュー作、2篇の増補を加えて待望の文庫化。" ,
                   img_path: require("../assets/images/Self-Reference ENGINE (ハヤカワ文庫JA).png"),
-                  pages: 120,
+                  pages: 601,
                 },
                 {
                   title: "×ゲーム",
@@ -307,7 +304,7 @@ export default {
                   author:"喜多川 泰",
                   summary:"市井の大人たちとの縁から、少年は一生忘れることのない思い出を手にした。ベストセラー作家が描く、輝きの物語。",
                   img_path: require("../assets/images/「また、必ず会おう」と誰もが言った。.png"),
-                  pages: 400,
+                  pages: 601,
                 },
             ]
         }
@@ -326,7 +323,7 @@ export default {
       },
       reshapeItems(items) {
         let arr = [];
-        let row_arr = []
+        let row_arr = [];
         for (let i=0; i<items.length; i++) {
             row_arr.push(items[i]);
             if (i%10 == 9 || i == items.length-1) {
@@ -335,14 +332,30 @@ export default {
             }
         }
         return arr;
-      }
+      },
+      getBackCoverWidth(item) {
+        let pages = item.pages;
+        if (pages < 200) {
+          return 1;
+        }
+        else if (pages < 400) {
+          console.log(pages);
+          return 2;
+        }
+        else if (pages < 600) {
+          return 3;
+        }
+        else {
+          return 4;
+        }
+      },
     }
 }
 </script>
 
 <style scoped>
 /* アニメーションの時間指定 */
-#back-cover div, #back-cover, .book-nav-items::before, #back-cover:hover div span {
+#back-cover, .book-nav-items::before, #back-cover:hover span {
   transition: all .4s;
 }
 
@@ -351,7 +364,7 @@ export default {
   font-size: 16px;
   display: -webkit-flex;
   display:         flex;
-  margin: 100px;
+  margin: 50px;
   padding: 5px 0 1px 0;
   border: 10px solid #967848;
   background-color: #564934;
@@ -360,12 +373,13 @@ export default {
 #back-cover {
   position: relative;
   list-style: none;
-  flex-basis: 32px;
+  display: block;
+  height: 150px;
+  padding: 10px 3px 0 3px;
+  transition: all .4s ;
+  text-decoration: none;
 }
 .book-nav-items0 {
-  position: relative;
-  list-style: none;
-  flex-basis: 32px;
   border-top: 1px solid #f28279;
   border-right: 2px solid #ba3c32;
   border-bottom: 1px solid #ba3c32;
@@ -373,9 +387,6 @@ export default {
   background-color: #ea5549;
 }
 .book-nav-items1 {
-    position: relative;
-  list-style: none;
-  flex-basis: 32px;
   border-top: 1px solid #e5a77b;
   border-right: 2px solid #c45e17;
   border-bottom: 1px solid #c45e17;
@@ -383,9 +394,6 @@ export default {
   background-color: #e17b34;
 }
 .book-nav-items2 {
-  position: relative;
-  list-style: none;
-  flex-basis: 32px;
   border-top: 1px solid #f2df93;
   border-right: 2px solid #997b00;
   border-bottom: 1px solid #997b00;
@@ -393,9 +401,6 @@ export default {
   background-color: #e9bc00;
 }
 .book-nav-items3 {
-  position: relative;
-  list-style: none;
-  flex-basis: 32px;
   border-top: 1px solid #50ce9d;
   border-right: 2px solid #02663f;
   border-bottom: 1px solid #02663f;
@@ -403,9 +408,6 @@ export default {
   background-color: #00a968;
 }
 .book-nav-items4 {
-  position: relative;
-  list-style: none;
-  flex-basis: 32px;
   border-top: 1px solid #5acec5;
   border-right: 2px solid #015952;
   border-bottom: 1px solid #015952;
@@ -413,9 +415,6 @@ export default {
   background-color: #00a497;
 }
 .book-nav-items5 {
-  position: relative;
-  list-style: none;
-  flex-basis: 32px;
   border-top: 1px solid #3d84ba;
   border-right: 2px solid #024272;
   border-bottom: 1px solid #024272;
@@ -459,14 +458,7 @@ export default {
   border-left: 2px solid #3d84ba;
 }
 
-#back-cover div {
-  display: block;
-  height: 150px;
-  padding: 10px 3px 0 3px;
-  transition: all .4s ;
-  text-decoration: none;
-}
-#back-cover div span {
+#back-cover span {
   display: inline-block;
   padding: 5px 1px;
   -ms-writing-mode: tb-rl;
@@ -486,10 +478,10 @@ export default {
   top: -10px;
   height: 11px;
 }
-#back-cover:hover div {
+#back-cover:hover {
   background-color: rgba(0,0,0,.3);
 }
-#back-cover:hover div span {
+#back-cover:hover span {
   background-color: #bcbaaf;
 }
 
