@@ -3868,6 +3868,11 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
+fitty@^2.2.6:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/fitty/-/fitty-2.3.3.tgz#176eb3a5d756ae7cdb7f7841a9357046b15817a0"
+  integrity sha512-JBrXkAT29fGTMFA/O40zzxZTISK5qm4kx8gRU6x43a1OalC5kyVXG77RLbyFMFdFabd16nYX3HrRAe/hGKg+EQ==
+
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
@@ -8170,6 +8175,14 @@ vue-eslint-parser@^7.0.0:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
+vue-fitty@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/vue-fitty/-/vue-fitty-0.1.8.tgz#78b90308ea4386a0c99170809b6b847e1e6801b5"
+  integrity sha512-sjU8iivVn3Bp0GpGjuxcLZqfoKqLyXvUENgYgPXyplzWweL+D+ViaTmY5N1BIayUw/RtcxKHhqSxWibKbafWUQ==
+  dependencies:
+    fitty "^2.2.6"
+    vue "^2.5.22"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
@@ -8221,7 +8234,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.11:
+vue@^2.5.22, vue@^2.6.11:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
