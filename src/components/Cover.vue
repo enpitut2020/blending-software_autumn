@@ -2,15 +2,16 @@
 
 <template>
         <v-main id="books">
-         <v-img class="book" v-for="(item, key) in items" :key="key" :src="item.img_path" @click="openDetail(item)"
-                alt=""></v-img>
+          <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
+            v-for="(item, key) in categoryItems" :key="key" :src="item.img_path" @click="openDetail(item)"
+            alt=""></v-img>
             <detail :item="content" v-show="showDetail" @close="closeDetail"/>
         </v-main>
 </template>
 
 <script>
 import Detail from "@/components/Detail";
-
+import OriginalHeader from "@/components/OriginalHeader.vue";
 export default {
     components: {
       Detail
@@ -18,12 +19,14 @@ export default {
     data () {
         return {
           showDetail: false,
+          isBook: true,
           content: "",
             items: [
             ]
         }
     },
     methods: {
+
       openDetail(item) {
         this.showDetail = true
         this.content = item
@@ -31,6 +34,14 @@ export default {
 
       closeDetail() {
         this.showDetail = false
+      },
+    },
+
+    computed: {
+      categoryItems: function() {
+        return this.items.filter(function (item) {
+          return OriginalHeader.data().select.includes(item.category)
+        })
       }
     }
 }
@@ -49,8 +60,24 @@ main {
     margin: 10px 10px 10px 10px;
     background-color: #DEB887;
 }
-.book:hover {
+
+.size_s {
     width: 150px;
     height: 200px;
+}
+
+.size_m {
+    width: 200px;
+    height: 300px;
+}
+
+.size_l {
+    width: 300px;
+    height: 500px;
+}
+
+.book:hover {
+    width: 350px;/*150px;*/
+    height: 550px;/*200px;*/
 }
 </style>
