@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container>
+        <!-- <v-container>
             <v-row v-for="(row_items, row_key) in reshapeItems(items)" :key="row_key" class="book-nav">
                 <v-col v-for="(item, item_key) in row_items" :key="item_key" :class="assignColor(item_key)" 
                 id="back-cover" 
@@ -10,7 +10,18 @@
                 </v-col>
                 <detail :item="content" v-show="showDetail" @close="closeDetail"/>
             </v-row>
-        </v-container>
+        </v-container> -->
+        <ul v-for="(row_items, row_key) in reshapeItems(items)" :key="row_key" class="book-nav">
+          <li v-for="(item, item_key) in row_items" :key="item_key" 
+          :class="assignColor(item_key)"
+          :style="styles(item)" 
+          id="back-cover" 
+          @click="openDetail(item)" 
+          >
+            <span>{{ item.title }}</span>
+          </li>
+          <detail :item="content" v-show="showDetail" @close="closeDetail"/>
+        </ul>
     </div>
 </template>
 
@@ -333,20 +344,12 @@ export default {
         }
         return arr;
       },
-      getBackCoverWidth(item) {
-        let pages = item.pages;
-        if (pages < 200) {
-          return 1;
-        }
-        else if (pages < 400) {
-          console.log(pages);
-          return 2;
-        }
-        else if (pages < 600) {
-          return 3;
-        }
-        else {
-          return 4;
+      styles(item) {
+        let coverWidth = Math.floor(item.pages/4);
+        let titleWidth = Math.floor(coverWidth * 0.8);
+        return {
+          '--coverWidth': String(coverWidth) + "px",
+          '--titleWidth': String(titleWidth) + "px"
         }
       },
     }
@@ -375,10 +378,24 @@ export default {
   list-style: none;
   display: block;
   height: 150px;
+  width: var(--coverWidth);
   padding: 10px 3px 0 3px;
   transition: all .4s ;
   text-decoration: none;
 }
+#back-cover span {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: var(--titleWidth);
+  font-size: 70%;
+  -ms-writing-mode: tb-rl;
+  -webkit-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+  align-items: center;
+  background-color: #e8e6dc;
+}
+
 .book-nav-items0 {
   border-top: 1px solid #f28279;
   border-right: 2px solid #ba3c32;
@@ -456,15 +473,6 @@ export default {
 .book-nav-items5::before {
   border-right: 2px solid #024272;
   border-left: 2px solid #3d84ba;
-}
-
-#back-cover span {
-  display: inline-block;
-  padding: 5px 1px;
-  -ms-writing-mode: tb-rl;
-  -webkit-writing-mode: vertical-rl;
-  writing-mode: vertical-rl;
-  background-color: #e8e6dc;
 }
 
 /* hover時の挙動 */
