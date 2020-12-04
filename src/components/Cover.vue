@@ -52,6 +52,9 @@ main {
     background-color: #422602;
 }
 
+.book, .book:hover {
+  transition: all .4s;
+}
 .book {
     display: inline-block;
     width: 100px;
