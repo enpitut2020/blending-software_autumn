@@ -1,5 +1,5 @@
 <template>
-    <div class="detail" id="overlay" @click.self="$emit('close')">
+    <div class="detail" id="overlay" v-if="item" @click.self="$emit('close')">
       <v-layout wrap @click.self="$emit('close')">
 
       <!-- モーダルの幅はmax-widthで決定してる       -->
