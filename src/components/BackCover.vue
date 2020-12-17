@@ -59,65 +59,65 @@ export default {
               {
                 title: "メタルギア ソリッド ガンズ オブ ザ パトリオット",
                 author: "伊藤 計劃",
-                summary:"戦争経済に支配された世界と、自らの呪われた運命からの解放のため、伝説の英雄ソリッド・スネーク最後の戦いが始まる。全世界でシリーズ2750万本を売り上げた大ヒットゲーム完結編を完全小説化!",
-                img_path: require("../assets/images/メタルギア ソリッド ガンズ オブ ザ パトリオット.jpg"),
+                itemCaption:"戦争経済に支配された世界と、自らの呪われた運命からの解放のため、伝説の英雄ソリッド・スネーク最後の戦いが始まる。全世界でシリーズ2750万本を売り上げた大ヒットゲーム完結編を完全小説化!",
+                largeImageUrl: require("../assets/images/メタルギア ソリッド ガンズ オブ ザ パトリオット.jpg"),
                 pages: 537,
-                book_type: "オリジナル文庫",
-                publisher: "角川書店",
+                size: "オリジナル文庫",
+                publisherName: "角川書店",
               },
               {
                 title: "人間失格",
                 author: "太宰 治",
-                summary:"「恥の多い生涯を送って来ました」。そんな身もふたもない告白から男の手記は始まる。男は自分を偽り、ひとを欺き、取り返しようのない過ちを犯し、「失格」の判定を自らにくだす。でも、男が不在になると、彼を懐かしんで、ある女性は語るのだ。「とても素直で、よく気がきいて(中略)神様みたいないい子でした」と。ひとがひととして、ひとと生きる意味を問う、太宰治、捨て身の問題作。",
-                img_path: require("../assets/images/人間失格.jpg"),
+                itemCaption:"「恥の多い生涯を送って来ました」。そんな身もふたもない告白から男の手記は始まる。男は自分を偽り、ひとを欺き、取り返しようのない過ちを犯し、「失格」の判定を自らにくだす。でも、男が不在になると、彼を懐かしんで、ある女性は語るのだ。「とても素直で、よく気がきいて(中略)神様みたいないい子でした」と。ひとがひととして、ひとと生きる意味を問う、太宰治、捨て身の問題作。",
+                largeImageUrl: require("../assets/images/人間失格.jpg"),
                 pages: 192,
-                book_type: "標準文庫",
-                publisher: "新潮社",
+                size: "標準文庫",
+                publisherName: "新潮社",
               },
               {
                 title: "ソラリス",
                 author: "スタニスワフ・レム",
-                summary:"惑星ソラリス――この静謐なる星は意思を持った海に表面を覆われていた。惑星の謎の解明のため、ステーションに派遣された心理学者ケルヴィンは変わり果てた研究員たちを目にする。彼らにいったい何が？　ケルヴィンもまたソラリスの海がもたらす現象に囚われていく……。人間以外の理性との接触は可能か？――知の巨人が世界に問いかけたＳＦ史上に残る名作。レム研究の第一人者によるポーランド語原典からの完全翻訳版。",
-                img_path: require("../assets/images/ソラリス.jpg"),
+                itemCaption:"惑星ソラリス――この静謐なる星は意思を持った海に表面を覆われていた。惑星の謎の解明のため、ステーションに派遣された心理学者ケルヴィンは変わり果てた研究員たちを目にする。彼らにいったい何が？　ケルヴィンもまたソラリスの海がもたらす現象に囚われていく……。人間以外の理性との接触は可能か？――知の巨人が世界に問いかけたＳＦ史上に残る名作。レム研究の第一人者によるポーランド語原典からの完全翻訳版。",
+                largeImageUrl: require("../assets/images/ソラリス.jpg"),
                 pages: 432,
-                book_type: "特殊文庫",
-                publisher: "早川書房",
+                size: "特殊文庫",
+                publisherName: "早川書房",
               },
               {
                 title: "人工知能は人間を超えるか ディープラーニングの先にあるもの",
                 author: "松尾 豊",
-                summary:"いま、将棋やクイズ番組など「人工知能vs人間」の戦いがあちこちで起こっている。2014年の英オックスフォード大学の研究報告では、今後10年から20年ほどで、人工知能を含むITの進化の影響によって、米国の702の職業のうち約半分が失われる可能性があると述べている。",
-                img_path: require("../assets/images/人工知能は人間を超えるか ディープラーニングの先にあるもの.jpg"),
+                itemCaption:"いま、将棋やクイズ番組など「人工知能vs人間」の戦いがあちこちで起こっている。2014年の英オックスフォード大学の研究報告では、今後10年から20年ほどで、人工知能を含むITの進化の影響によって、米国の702の職業のうち約半分が失われる可能性があると述べている。",
+                largeImageUrl: require("../assets/images/人工知能は人間を超えるか ディープラーニングの先にあるもの.jpg"),
                 pages: 263,
-                book_type: "B6判単行本",
-                publisher: "角川書店",
+                size: "B6判単行本",
+                publisherName: "角川書店",
               },
               {
                 title: "三体",
                 author: "三体",
-                summary:"物理学者の父を文化大革命で惨殺され、人類に絶望した中国人エリート女性科学者・葉文潔(イエ・ウェンジエ)。失意の日々を過ごす彼女は、ある日、巨大パラボラアンテナを備える謎めいた軍事基地にスカウトされる。そこでは、人類の運命を左右するかもしれないプロジェクトが、極秘裏に進行していた。",
-                img_path: require("../assets/images/三体.jpg"),
+                itemCaption:"物理学者の父を文化大革命で惨殺され、人類に絶望した中国人エリート女性科学者・葉文潔(イエ・ウェンジエ)。失意の日々を過ごす彼女は、ある日、巨大パラボラアンテナを備える謎めいた軍事基地にスカウトされる。そこでは、人類の運命を左右するかもしれないプロジェクトが、極秘裏に進行していた。",
+                largeImageUrl: require("../assets/images/三体.jpg"),
                 pages: 448,
-                book_type: "四六判単行本",
-                publisher: "早川書房",
+                size: "四六判単行本",
+                publisherName: "早川書房",
               },
               {
                 title: "哲学と宗教全史",
                 author: "出口 治明",
-                summary:"【ビジネス書大賞2020 特別賞(ビジネス教養部門)受賞】【全国で話題沸騰、ついに10万部突破! 11/16日経新聞掲載】池谷裕二氏、宮部みゆき氏、なかにし礼氏、入山章栄氏など各界論客から大絶賛!「読者が選ぶビジネス書グランプリ2020」総合グランプリ第6位・リベラルアーツ部門第2位!台湾、韓国からも翻訳オファー!",
-                img_path: require("../assets/images/哲学と宗教全史.jpg"),
+                itemCaption:"【ビジネス書大賞2020 特別賞(ビジネス教養部門)受賞】【全国で話題沸騰、ついに10万部突破! 11/16日経新聞掲載】池谷裕二氏、宮部みゆき氏、なかにし礼氏、入山章栄氏など各界論客から大絶賛!「読者が選ぶビジネス書グランプリ2020」総合グランプリ第6位・リベラルアーツ部門第2位!台湾、韓国からも翻訳オファー!",
+                largeImageUrl: require("../assets/images/哲学と宗教全史.jpg"),
                 pages: 468,
-                book_type: "菊判単行本",
-                publisher: "その他",
+                size: "菊判単行本",
+                publisherName: "その他",
               },
               {
                 title: "生物と無生物のあいだ",
                 author: "福岡 伸一",
-                summary:"「生命とは何か」という生命科学最大の問いに、いま分子生物学はどう答えるのか。歴史の闇に沈んだ天才科学者たちの思考を紹介しながら、現在形の生命観を探る。ページをめくる手が止まらない極上の科学ミステリー。分子生物学がたどりついた地平を平易に明かし、目に映る景色がガラリと変える!",
-                img_path: require("../assets/images/生物と無生物のあいだ.jpg"),
+                itemCaption:"「生命とは何か」という生命科学最大の問いに、いま分子生物学はどう答えるのか。歴史の闇に沈んだ天才科学者たちの思考を紹介しながら、現在形の生命観を探る。ページをめくる手が止まらない極上の科学ミステリー。分子生物学がたどりついた地平を平易に明かし、目に映る景色がガラリと変える!",
+                largeImageUrl: require("../assets/images/生物と無生物のあいだ.jpg"),
                 pages: 286,
-                book_type: "新書",
-                publisher: "講談社",
+                size: "新書",
+                publisherName: "講談社",
               },
           ]
         }
@@ -132,7 +132,7 @@ export default {
         this.showDetail = false
       },
       assignColor(item) {
-        return "book-nav-items" + String(this.coverColorType[item.publisher]);
+        return "book-nav-items" + String(this.coverColorType[item.publisherName]);
       },
       reshapeItems(items) {
         let arr = [];
@@ -149,7 +149,7 @@ export default {
       styles(item) {
         let coverWidth = Math.floor(item.pages/4);
         let titleWidth = Math.floor(coverWidth * 0.8);
-        let coverHeight = Math.floor(this.baseCoverHeight * this.coverHightMagnification[item.book_type])
+        let coverHeight = Math.floor(this.baseCoverHeight * this.coverHightMagnification[item.size])
         let titleHeight = Math.floor(coverHeight * 0.8);
         return {
           '--coverWidth': String(coverWidth) + "px",
