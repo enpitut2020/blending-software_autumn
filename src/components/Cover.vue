@@ -518,7 +518,6 @@ main {
 }
 
 .book:hover {
-    width: 350px;/*150px;*/
-    height: 550px;/*200px;*/
+    transform: scale(1.1);
 }
 </style>
