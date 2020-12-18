@@ -503,18 +503,18 @@ main {
 }
 
 .size_s {
+    width: 100px;
+    height: 150px;
+}
+
+.size_m {
     width: 150px;
     height: 200px;
 }
 
-.size_m {
+.size_l {
     width: 200px;
     height: 300px;
-}
-
-.size_l {
-    width: 300px;
-    height: 500px;
 }
 
 .book:hover {
