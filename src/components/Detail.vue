@@ -6,7 +6,7 @@
       <v-card class="mx-auto my-12" max-width=700 >
 
         <!-- 画像へのパス -->
-        <v-img class="book" :src="item.img_path">
+        <v-img class="book" :src="item.largeImageUrl">
         </v-img>
 
         <v-divider></v-divider>
@@ -37,7 +37,7 @@
 <!--        </h1>-->
 <!--        <h1 v-else>-->
           <v-card-text align="left">
-            {{ item.summary }} <v-btn text @click="closeFullSummary">
+            {{ item.itemCaption }} <v-btn text @click="closeFullSummary">
 <!--            LESS-->
           </v-btn>
           </v-card-text>
@@ -64,7 +64,7 @@ export default {
       title: タイトル
       author: 著者
       summary: あらすじ
-      img_path: 画像へのリンク
+      largeImageUrl: 画像へのリンク
    */
   data: () => ({
     foldingSummary: true,
