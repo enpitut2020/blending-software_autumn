@@ -63,7 +63,8 @@ import Detail from "@/components/Detail";
 </script>
 
 <style scoped>
-.hist {
+/* detail.vueの位置調整 */
+.detail {
   position: fixed;
   top: 380px !important;
 }
