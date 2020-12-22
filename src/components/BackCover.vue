@@ -32,6 +32,7 @@ var items = [
                 pages: 537,
                 size: "オリジナル文庫",
                 publisherName: "角川書店",
+                category: "日本の小説",
               },
               {
                 title: "人間失格",
@@ -41,6 +42,7 @@ var items = [
                 pages: 192,
                 size: "標準文庫",
                 publisherName: "新潮社",
+                category: "日本の小説",
               },
               {
                 title: "ソラリス",
@@ -50,6 +52,7 @@ var items = [
                 pages: 432,
                 size: "特殊文庫",
                 publisherName: "早川書房",
+                category: '世界の小説',
               },
               {
                 title: "人工知能は人間を超えるか ディープラーニングの先にあるもの",
@@ -59,6 +62,7 @@ var items = [
                 pages: 263,
                 size: "B6判単行本",
                 publisherName: "角川書店",
+                category: '世界の小説',
               },
               {
                 title: "三体",
@@ -68,6 +72,7 @@ var items = [
                 pages: 448,
                 size: "四六判単行本",
                 publisherName: "早川書房",
+                category: '図鑑',
               },
               {
                 title: "哲学と宗教全史",
@@ -77,6 +82,7 @@ var items = [
                 pages: 468,
                 size: "菊判単行本",
                 publisherName: "その他",
+                category: '図鑑',
               },
               {
                 title: "生物と無生物のあいだ",
@@ -86,6 +92,7 @@ var items = [
                 pages: 286,
                 size: "新書",
                 publisherName: "講談社",
+                category: '図鑑',
               },
           ]
 export default {
