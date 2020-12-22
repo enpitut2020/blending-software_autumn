@@ -23,40 +23,7 @@ import Vue from 'vue';
 import Fitty from 'vue-fitty' ;
 // Install plugin 
 Vue.use(Fitty);
-
-export default {
-    components: {
-      Detail
-    },
-    data () {
-        return {
-          showDetail: false,
-          content: "",
-          fittyOptions: {
-            minSize: 1,
-            maxSize: 15,
-            multiLine: true,
-          },
-          baseCoverHeight: 200,
-          // 147ミリの文庫本をもとに高さ倍率を算出
-          coverHightMagnification : {
-            "オリジナル文庫": 1.00, 
-            "標準文庫": 1.02,
-            "特殊文庫": 1.06,  
-            "B6判単行本": 1.24, 
-            "四六判単行本": 1.28, 
-            "菊判単行本": 1.50, 
-            "新書": 1.24, 
-          },
-          coverColorType : {
-            "講談社": 0,
-            "集英社": 1,
-            "新潮社": 2,
-            "角川書店": 3,
-            "早川書房": 4,
-            "その他": 5,
-          },
-          items: [
+var items = [
               {
                 title: "メタルギア ソリッド ガンズ オブ ザ パトリオット",
                 author: "伊藤 計劃",
@@ -121,6 +88,39 @@ export default {
                 publisherName: "講談社",
               },
           ]
+export default {
+    components: {
+      Detail
+    },
+    data () {
+        return {
+          showDetail: false,
+          content: "",
+          fittyOptions: {
+            minSize: 1,
+            maxSize: 15,
+            multiLine: true,
+          },
+          baseCoverHeight: 200,
+          // 147ミリの文庫本をもとに高さ倍率を算出
+          coverHightMagnification : {
+            "オリジナル文庫": 1.00, 
+            "標準文庫": 1.02,
+            "特殊文庫": 1.06,  
+            "B6判単行本": 1.24, 
+            "四六判単行本": 1.28, 
+            "菊判単行本": 1.50, 
+            "新書": 1.24, 
+          },
+          coverColorType : {
+            "講談社": 0,
+            "集英社": 1,
+            "新潮社": 2,
+            "角川書店": 3,
+            "早川書房": 4,
+            "その他": 5,
+          },
+          displayItems: items,
         }
     },
     mounted: function() {
