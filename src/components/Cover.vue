@@ -475,6 +475,10 @@ export default {
       },
 
       categoryFilter() {
+        if (this.select.length === 0) {
+          return items;
+        }
+
         var selectedCategory = this.select;
         return items.filter(function (item) {
           return selectedCategory.includes(item.category)
