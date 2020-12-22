@@ -10,7 +10,6 @@
 
         <v-toolbar-title>検索ジャンル：</v-toolbar-title>
 
-
         <v-container
           fill-height
         >
@@ -23,13 +22,11 @@
               multiple
               outlined
               small-chips
+              @change="categorySearch"
             ></v-combobox>
           </v-flex>
         </v-container>
-        <v-btn v-on:click="categorySearch">
-          <v-icon>mdi-book-search-outline</v-icon>
-        </v-btn>
-
+        
         <history />
       </v-app-bar>
             <v-navigation-drawer
