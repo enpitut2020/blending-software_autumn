@@ -18,6 +18,7 @@
 
 <script>
 import Detail from "@/components/Detail";
+import OriginalHeader from "@/components/OriginalHeader.vue";
 import Vue from 'vue';
 import Fitty from 'vue-fitty' ;
 // Install plugin 
@@ -122,7 +123,22 @@ export default {
           ]
         }
     },
+    mounted: function() {
+      OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
+    },
     methods: {
+      displayCategoryData: function(select) {
+        this.select = select;
+        this.displayItems = this.categoryFilter()
+      },
+
+      categoryFilter() {
+        var selectedCategory = this.select;
+        return items.filter(function (item) {
+          return selectedCategory.includes(item.category)
+        })
+      },
+
       openDetail(item) {
         this.showDetail = true
         this.content = item
