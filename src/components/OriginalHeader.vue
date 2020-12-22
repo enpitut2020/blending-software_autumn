@@ -8,7 +8,7 @@
       >
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>検索ジャンル：</v-toolbar-title>
+        <v-toolbar-title>表示ジャンル：</v-toolbar-title>
 
         <v-container
           fill-height
@@ -26,7 +26,7 @@
             ></v-combobox>
           </v-flex>
         </v-container>
-        
+
         <history />
       </v-app-bar>
             <v-navigation-drawer
