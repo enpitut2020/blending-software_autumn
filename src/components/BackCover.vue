@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul v-for="(row_items, row_key) in reshapeItems(items)" :key="row_key" class="book-nav">
+        <ul v-for="(row_items, row_key) in reshapeItems(displayItems)" :key="row_key" class="book-nav">
           <div>
           <li v-for="(item, item_key) in row_items" :key="item_key" 
           :class="assignColor(item)"
