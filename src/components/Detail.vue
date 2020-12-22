@@ -30,14 +30,14 @@
         -->
 
         <!-- あらすじ -->
-<!--        <h1 v-show="foldingSummary">-->
+<!--        <h1 v-show="foldingitemCaption">-->
 <!--          <v-card-text align="left" class="">-->
-<!--            {{ item.summary | truncate }}<v-btn class="" text @click="showFullSummary">MORE</v-btn>-->
+<!--            {{ item.itemCaption | truncate }}<v-btn class="" text @click="showFullitemCaption">MORE</v-btn>-->
 <!--          </v-card-text>-->
 <!--        </h1>-->
 <!--        <h1 v-else>-->
           <v-card-text align="left">
-            {{ item.itemCaption }} <v-btn text @click="closeFullSummary">
+            {{ item.itemCaption }} <v-btn text @click="closeFullitemCaption">
 <!--            LESS-->
           </v-btn>
           </v-card-text>
@@ -63,26 +63,26 @@ export default {
     変数itemでCover.vueでクリックされた本の情報が渡される
       title: タイトル
       author: 著者
-      summary: あらすじ
+      itemCaption: あらすじ
       largeImageUrl: 画像へのリンク
    */
   data: () => ({
-    foldingSummary: true,
+    foldingitemCaption: true,
   }),
   // FIXME: Convert into computed
   methods: {
     // あらすじをすべて表示するか．
-    showFullSummary() {
-      this.foldingSummary = false;
+    showFullitemCaption() {
+      this.foldingitemCaption = false;
     },
-    closeFullSummary() {
-      this.foldingSummary = true;
+    closeFullitemCaption() {
+      this.foldingitemCaption = true;
     },
   },
   filters: {
     // あらすじを適当な文字数に
-    truncate: function (summary) {
-      return summary.substr(0, 50) + "...";
+    truncate: function (itemCaption) {
+      return itemCaption.substr(0, 50) + "...";
     }
   }
 }
