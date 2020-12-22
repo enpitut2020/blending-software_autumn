@@ -21,6 +21,7 @@ export default {
           showDetail: false,
           isBook: true,
           content: "",
+          select: [],
           items: [
             {
               title: "5分間リアル脱出ゲーム",
@@ -463,7 +464,14 @@ export default {
           ]
         }
     },
+    mounted: function() {
+      OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
+    },
     methods: {
+      displayCategoryData: function(select) {
+        console.log(select);
+        this.select = select;
+      },
 
       openDetail(item) {
         this.showDetail = true

@@ -26,6 +26,7 @@
             ></v-combobox>
           </v-flex>
         </v-container>
+        <v-btn v-on:click="categorySearch">検索</v-btn>
 
         <history />
       </v-app-bar>
@@ -52,10 +53,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import history from "@/components/History.vue";
+const bus = new Vue();
   export default {
     data () {
       return {
+        bus: bus,
         select: ['日本の小説'],
         items: [
           '日本の小説',
@@ -64,6 +68,12 @@ import history from "@/components/History.vue";
           '絵本',
         ],
         drawer: false
+      }
+    },
+    methods: {
+      categorySearch: function() {
+        console.log(bus.$on)
+        bus.$emit('change-category', this.select);
       }
     },
     components: {
