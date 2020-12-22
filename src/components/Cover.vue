@@ -470,13 +470,11 @@ export default {
     },
     methods: {
       displayCategoryData: function(select) {
-        console.log(select);
         this.select = select;
         this.displayItems = this.categoryFilter()
       },
 
       categoryFilter() {
-        console.log(this.select);
         var selectedCategory = this.select;
         return items.filter(function (item) {
           return selectedCategory.includes(item.category)
