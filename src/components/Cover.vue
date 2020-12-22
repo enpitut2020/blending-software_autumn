@@ -3,7 +3,7 @@
 <template>
         <v-main id="books">
           <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
-            v-for="(item, key) in categoryItems" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
+            v-for="(item, key) in displayItems" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
             alt=""></v-img>
             <detail :item="content" v-show="showDetail" @close="closeDetail"/>
         </v-main>
@@ -12,17 +12,7 @@
 <script>
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
-export default {
-    components: {
-      Detail
-    },
-    data () {
-        return {
-          showDetail: false,
-          isBook: true,
-          content: "",
-          select: [],
-          items: [
+var items = [
             {
               title: "5分間リアル脱出ゲーム",
               author: "SCRAP",
@@ -461,7 +451,18 @@ export default {
               isSizeM: true,
               isSizeL: false,
             },
-          ]
+          ];
+export default {
+    components: {
+      Detail
+    },
+    data () {
+        return {
+          showDetail: false,
+          isBook: true,
+          content: "",
+          select: [],
+          displayItems: items
         }
     },
     mounted: function() {
@@ -471,6 +472,15 @@ export default {
       displayCategoryData: function(select) {
         console.log(select);
         this.select = select;
+        this.displayItems = this.categoryFilter()
+      },
+
+      categoryFilter() {
+        console.log(this.select);
+        var selectedCategory = this.select;
+        return items.filter(function (item) {
+          return selectedCategory.includes(item.category)
+        })
       },
 
       openDetail(item) {
@@ -486,7 +496,7 @@ export default {
     computed: {
       categoryItems: function() {
         return this.items.filter(function (item) {
-          return OriginalHeader.data().select.includes(item.category)
+          return this.select.includes(item.category)
         })
       }
     }

@@ -60,7 +60,7 @@ const bus = new Vue();
     data () {
       return {
         bus: bus,
-        select: ['日本の小説'],
+        select: [],
         items: [
           '日本の小説',
           '世界の小説',
