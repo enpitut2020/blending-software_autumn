@@ -4,16 +4,19 @@
     <header>
       <v-app-bar
         app
-        color="blue lighten-2"
+        dark
+        color="brown darken-1"
       >
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-
-        <v-toolbar-title>表示ジャンル：</v-toolbar-title>
 
         <v-container
           fill-height
         >
-          <v-flex xs4>
+        <v-row no-gutters>
+          <v-col cols="1">
+            <v-toolbar-title>表示ジャンル：</v-toolbar-title>
+          </v-col>
+          <v-col cols="3">
             <v-combobox
               v-model="select"
               :items="items"
@@ -24,12 +27,12 @@
               small-chips
               @change="categorySearch"
             ></v-combobox>
-          </v-flex>
+          </v-col>
+        </v-row>
         </v-container>
-
         <history />
       </v-app-bar>
-            <v-navigation-drawer
+      <v-navigation-drawer
         v-model="drawer"
         fixed
         temporary
