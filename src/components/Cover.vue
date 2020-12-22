@@ -490,14 +490,6 @@ export default {
         this.showDetail = false
       },
     },
-
-    computed: {
-      categoryItems: function() {
-        return this.items.filter(function (item) {
-          return this.select.includes(item.category)
-        })
-      }
-    }
 }
 </script>
 
