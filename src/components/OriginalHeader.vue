@@ -26,7 +26,9 @@
             ></v-combobox>
           </v-flex>
         </v-container>
-        <v-btn v-on:click="categorySearch">検索</v-btn>
+        <v-btn v-on:click="categorySearch">
+          <v-icon>mdi-book-search-outline</v-icon>
+        </v-btn>
 
         <history />
       </v-app-bar>
