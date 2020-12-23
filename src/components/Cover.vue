@@ -5,12 +5,12 @@
           <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
             v-for="(item, key) in displayItems" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
             alt=""></v-img>
-            <detail :item="content" v-show="showDetail" @close="closeDetail"/>
+<!--            <detail :item="content" v-show="showDetail" @close="closeDetail"/>-->
         </v-main>
 </template>
 
 <script>
-import Detail from "@/components/Detail";
+// import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
 var items = [
             {
@@ -454,7 +454,7 @@ var items = [
           ];
 export default {
     components: {
-      Detail
+      // Detail
     },
     data () {
         return {
@@ -486,12 +486,16 @@ export default {
       },
 
       openDetail(item) {
-        this.showDetail = true
-        this.content = item
+        this.$modal.show('book-detail', {
+          title: item.title,
+          author: item.author,
+          itemCaption: item.itemCaption,
+          largeImageUrl:item.largeImageUrl
+        })
       },
 
       closeDetail() {
-        this.showDetail = false
+        this.$modal.hide('book-detail')
       },
     },
 }
