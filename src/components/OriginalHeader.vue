@@ -14,7 +14,7 @@
         >
         <v-row no-gutters>
           <v-col cols="1">
-            <v-toolbar-title>表示ジャンル：</v-toolbar-title>
+            <v-toolbar-title>ジャンル</v-toolbar-title>
           </v-col>
           <v-col cols="3">
             <v-combobox
