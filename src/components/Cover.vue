@@ -3,13 +3,17 @@
 <template>
         <v-main id="books">
           <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
-            v-for="(item, key) in categoryItems" :key="key" :src="item.img_path" @click="openDetail(item)"
+            v-for="(item, key) in categoryItems" :key="key" :src="item.img_path" @click="openDetail(item)" 
             alt=""></v-img>
             <detail :item="content" v-show="showDetail" @close="closeDetail"/>
         </v-main>
 </template>
 
 <script>
+import Vue from "vue";
+import Db from "@/plugins/firestoreUtils.js";
+Vue.use(Db)
+
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
 export default {
@@ -21,6 +25,7 @@ export default {
           showDetail: false,
           isBook: true,
           content: "",
+          booksData: [],
           items: [
             {
               title: "5分間リアル脱出ゲーム",
@@ -474,7 +479,16 @@ export default {
         this.showDetail = false
       },
     },
+    created() {
+      this.$getBooksData().then((books) => {
+        console.log(books);
+        this.booksData = books;
+      });
 
+      this.$getTestData('サブてすと').then((test) => {
+        console.log(test);
+      });
+    },
     computed: {
       categoryItems: function() {
         return this.items.filter(function (item) {
