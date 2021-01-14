@@ -2,6 +2,7 @@
   <v-app>
     <v-container>
       <originalHeader />
+      <heroComponent />
       <cover />
       <detail />
     </v-container>
@@ -12,6 +13,7 @@
 import originalHeader from "@/components/OriginalHeader.vue";
 import cover from "@/components/Cover.vue";
 import detail from "@/components/Detail.vue";
+import heroComponent from "@/components/HeroComponent.vue";
 
 export default {
   name: "Home",
@@ -19,6 +21,7 @@ export default {
     originalHeader,
     cover,
     detail,
+    heroComponent,
   }
 };
 </script>
