@@ -43,28 +43,6 @@ const Db = {
       return booksData;
     };
 
-    Vue.prototype.$getTestData = async function getTestData(subCol) {
-      const testData = await db
-            .collection("books")
-            .get()
-            .then(querySnapshot => {
-              console.debug("キャッシュからデータを取得しました");
-              const testData = [];
-              querySnapshot.forEach(async doc => {
-                // 配列
-                const subCollection = await doc.ref.collection(subCol).get();
-                subCollection.forEach(doc => {
-                  testData.push(doc.data());
-                });
-              });
-              return testData;
-            })
-            .catch(()=>{
-              alert("firestoreからのデータの取得でエラーが発生しました")
-            });
-      return testData;
-    };
-
     Vue.prototype.$getUsersData = async function getUsersData() {
       const usersData = await db
             .collection("users")

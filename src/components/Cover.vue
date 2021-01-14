@@ -484,10 +484,6 @@ export default {
         console.log(books);
         this.booksData = books;
       });
-
-      this.$getTestData('サブてすと').then((test) => {
-        console.log(test);
-      });
     },
     computed: {
       categoryItems: function() {
