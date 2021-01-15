@@ -24,7 +24,8 @@ const Db = {
   install(Vue) {
     Vue.prototype.$getBooksData = async function getBooksData() {
       const booksData = await db
-            .collection("books")
+            .collection("test_books")
+            .limit(20)
             .get()
             .then(querySnapshot => {
               console.debug("キャッシュからデータを取得しました");

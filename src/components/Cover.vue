@@ -16,7 +16,9 @@ Vue.use(Db)
 
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
-var items = [
+var items = [];
+// TODO: 削除
+var itemss = [
             {
               title: "5分間リアル脱出ゲーム",
               author: "SCRAP",
@@ -500,8 +502,7 @@ export default {
     },
     created() {
       this.$getBooksData().then((books) => {
-        console.log(books);
-        this.booksData = books;
+        this.items = books;
       });
     },
     computed: {
@@ -512,6 +513,8 @@ export default {
       }
     }
 }
+// TODO: 削除
+console.log(itemss);
 </script>
 
 <style scoped>
