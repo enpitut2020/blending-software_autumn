@@ -7,7 +7,6 @@
         dark
         color="brown darken-1"
       >
-        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
         <v-container
           fill-height
@@ -30,27 +29,9 @@
           </v-col>
         </v-row>
         </v-container>
+        <v-switch v-model="isBackCover" @click="switchCover" :label="'背表紙モード'"></v-switch>
         <history />
       </v-app-bar>
-      <v-navigation-drawer
-        v-model="drawer"
-        fixed
-        temporary
-      >
-        <v-list
-          nav
-          dense
-        >
-          <v-list-item-group>
-            <v-list-item>
-              <v-list-item-title><router-link to="/">HOME</router-link></v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title><router-link to="/about">ABOUT</router-link></v-list-item-title>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-navigation-drawer>
     </header>
 </template>
 
@@ -62,6 +43,7 @@ const bus = new Vue();
     data () {
       return {
         bus: bus,
+        isBackCover: false,
         select: [],
         items: [
           '日本の小説',
@@ -76,6 +58,15 @@ const bus = new Vue();
       categorySearch: function() {
         console.log(bus.$on)
         bus.$emit('change-category', this.select);
+      },
+      switchCover() {
+        if (this.isBackCover) {
+          this.$emit("currentView", "backcover");
+        }
+        else {
+          this.$emit("currentView", "cover");
+        }
+
       }
     },
     components: {
