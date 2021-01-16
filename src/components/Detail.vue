@@ -11,9 +11,6 @@
 
 -->
 
-<!-- TODO: レイアウト直す-->
-<!-- TODO: 矢印で移動, 縦のmargin-->
-
 <template>
   <modal name='book-detail' @before-open="beforeOpen" :resizable="false" :draggable="true" :scrollable="true"
          :width="600" :height="465">
@@ -32,7 +29,7 @@
             <div v-bind:class='isDark? flip_page_double_summary_even_dark:flip_page_double_summary_even_light'>
             <div v-if="isVertical">
                <div class="vertical">
-                  {{ itemCaption | truncate(1) }}
+                  {{ itemCaption | truncateFirstPage(1) }}
 
                  <!-- あらすじが1ページ (約130字) を超える時に"次ページへ続く"を表示            -->
                  <p>
@@ -44,7 +41,7 @@
             </div>
             <div v-else>
               <div class="summary">
-                {{ itemCaption | truncate(1) }}
+                {{ itemCaption | truncateFirstPage(1) }}
               </div>
               <!-- あらすじが1ページ (約130字) を超える時に"次ページへ続く"を表示            -->
               <p>
@@ -91,39 +88,41 @@
 
        <div style="padding-left: 120px;white-space: nowrap;" v-bind:class='isDark? toggle_dark:toggle_light'>
           <!-- ダークモード用のトグル -->
-          ダークモード <toggle-button @change="onChangeColorMode" :value="false" :labels="{checked: 'On', unchecked: 'Off'}"
+          ダークモード <toggle-button @change="onChangeColorMode" :value="isDark" :labels="{checked: 'On', unchecked: 'Off'}"
                                 height="25" width="50"></toggle-button>
          <!-- 縦読み用のトグル -->
-          <span style="margin-left: 65px">縦読み</span> <toggle-button style="margin-right: 5px" @change="onChangeVerticalHorizontalMode" :value="false" :labels="{checked: 'On', unchecked: 'Off'}" height="25" width="50"></toggle-button>
+          <span style="margin-left: 65px">縦読み</span> <toggle-button style="margin-right: 5px" @change="onChangeVerticalHorizontalMode" :value="isVertical" :labels="{checked: 'On', unchecked: 'Off'}" height="25" width="50"></toggle-button>
        </div>
 
        <hr v-bind:class='isDark? divider_dark:divider_light'>
 
-      <!-- FIX ME: ボタンデザイン，内容 -->
-       <div v-if="this.isDark">
-        <v-btn class="button-css" color="secondary"
-               v-bind:href="'https://www.amazon.co.jp/s?k='+title+'&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&ref=nb_sb_noss_1'"
-               target="_blank" rel="noopener noreferrer"> Amazon </v-btn>
-        <v-btn class="button-css" color="secondary"
-               v-bind:href="'https://books.rakuten.co.jp/search?sitem='+title+'&l-id=pc-search-box&x=0&y=0'"
-               target="_blank"
-               rel="noopener noreferrer"> 楽天 </v-btn>
-        <v-btn class="button-css" color="secondary" v-bind:href="'https://www.tulips.tsukuba.ac.jp/search/?q='+title"
-               target="_blank"
-               rel="noopener noreferrer"> 図書館 </v-btn>
-      </div>
-      <div v-else>
-        <v-btn class="button-css white--text" color=#6D4C41
-               v-bind:href="'https://www.amazon.co.jp/s?k='+title+'&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&ref=nb_sb_noss_1'"
-               target="_blank" rel="noopener noreferrer"> Amazon </v-btn>
-        <v-btn class="button-css white--text" color=#6D4C41
-               v-bind:href="'https://books.rakuten.co.jp/search?sitem='+title+'&l-id=pc-search-box&x=0&y=0'"
-               target="_blank"
-               rel="noopener noreferrer"> 楽天 </v-btn>
-        <v-btn class="button-css white--text" color=#6D4C41
-               v-bind:href="'https://www.tulips.tsukuba.ac.jp/search/?q='+title" target="_blank"
-               rel="noopener noreferrer"> 図書館 </v-btn>
-      </div>
+      <!-- リンク -->
+          <div v-if="this.isDark">
+            <v-btn style="color: #FF9900;" class="button-css" color="#333E48"
+                   v-bind:href="'https://www.amazon.co.jp/s?k='+title+'&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&ref=nb_sb_noss_1'"
+                   target="_blank" rel="noopener noreferrer"> アマゾン </v-btn>
+            <v-btn style="color: #bf0000;" class="button-css" color="#dddcdc"
+                   v-bind:href="'https://books.rakuten.co.jp/search?sitem='+title+'&l-id=pc-search-box&x=0&y=0'"
+                   target="_blank"
+                   rel="noopener noreferrer"> 楽天 </v-btn>
+            <v-btn style="color: #f3f3f3" class="button-css" color="#6600CC"
+                   v-bind:href="'https://www.tulips.tsukuba.ac.jp/search/?q='+title"
+                   target="_blank"
+                   rel="noopener noreferrer"> 図書館で探す </v-btn>
+          </div>
+          <div v-else>
+            <v-btn  style="color: #FF9900;" class="button-css" color="#333E48"
+                   v-bind:href="'https://www.amazon.co.jp/s?k='+title+'&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&ref=nb_sb_noss_1'"
+                   target="_blank" rel="noopener noreferrer"> アマゾン </v-btn>
+            <v-btn style="color: #bf0000;" class="button-css" color="white"
+                   v-bind:href="'https://books.rakuten.co.jp/search?sitem='+title+'&l-id=pc-search-box&x=0&y=0'"
+                   target="_blank"
+                   rel="noopener noreferrer"> 楽天 </v-btn>
+            <v-btn  style="color: whitesmoke" class="button-css" color="#6600CC"
+                   v-bind:href="'https://www.tulips.tsukuba.ac.jp/search/?q='+title"
+                   target="_blank"
+                   rel="noopener noreferrer"> 図書館で探す </v-btn>
+          </div>
     </div>
   </modal>
 </template>
@@ -198,9 +197,6 @@ export default {
       this.title = item.params.title
       this.itemCaption = item.params.itemCaption
       this.largeImageUrl = item.params.largeImageUrl
-      this.isDark = false
-      this.isVertical = false
-      this.direction = "ltr"
     },
 
     // ダークモードのトグルが押された時
@@ -211,21 +207,42 @@ export default {
     onChangeVerticalHorizontalMode() {
       this.isVertical = !this.isVertical
       this.direction = this.direction === "rtl" ? "ltr" : "rtl"
+      this.changeMargin()
+    },
+
+    changeMargin(){
+      if(this.isVertical){
+        document.documentElement.style.setProperty('--is-normal','0')
+        document.documentElement.style.setProperty('--is-vertical','1')
+      }else{
+        document.documentElement.style.setProperty('--is-normal','1')
+        document.documentElement.style.setProperty('--is-vertical','0')
+      }
+
     },
 
   },
   filters: {
     // あらすじを各ページにおさまるサイズに切り取り
-    // 今だと各ページが130ページになるようにしている．
+    // 今だと1ページ目が137文字，それ以降が154文字にしている．
     // Usage: {itemCaption | truncate(ページ番号)}
-    truncate: function (itemCaption, page_num) {
+    truncateFirstPage: function (itemCaption, page_num) {
       return String(itemCaption).substr((Number(page_num) - 1) * 137, 137 + Number(page_num) - Number(page_num));
+    },
+
+    truncate: function (itemCaption, page_num) {
+      return String(itemCaption).substr(137 + (Number(page_num) - 2) * 154, 154 );
     }
+
   }
 }
 </script>
 
 <style>
+:root{
+  --is-normal:1;
+  --is-vertical:0;
+}
 
 /* 共通のCSS */
 .button-css {
@@ -246,6 +263,7 @@ export default {
   text-align: center;
   line-height: 300px;
   vertical-align: middle;
+  margin-left: 1px;
 }
 
 .book {
@@ -314,7 +332,8 @@ export default {
   text-align: left;
   float: left;
   vertical-align: middle;
-  margin-right: 1px;
+  margin-right: calc(1px * var(--is-normal)); /* normalの時1px*/
+  margin-left: calc(1px * var(--is-vertical));  /* verticalの時1px */
 }
 
 .flip-page-double-summary-even-light {
@@ -325,32 +344,9 @@ export default {
   text-align: left;
   float: left;
   vertical-align: middle;
-  margin-left: 1px;
+  margin-left: calc(1px * var(--is-normal)); /* normalの時1px*/
+  margin-right: calc(1px * var(--is-vertical));  /* verticalの時1px */
 }
-
-.flip-page-double-summary-odd-light-vertical {
-  width: 45px;
-  height: 30px;
-  background: rgb(245, 245, 228);
-  color: #121212;
-  text-align: left;
-  float: left;
-  vertical-align: middle;
-  margin-left: 1px;
-}
-
-.flip-page-double-summary-even-light-vertical {
-  width: 45px;
-  height: 31px;
-  background: rgb(245, 245, 228);
-  color: #121212;
-  text-align: left;
-  float: left;
-  vertical-align: middle;
-  margin-right: 1px;
-}
-
-
 
 .toggle-light {
   color: #dddcdc;
@@ -406,7 +402,9 @@ export default {
   text-align: left;
   float: left;
   vertical-align: middle;
-  margin-right: 1px;
+  margin-right: calc(1px * var(--is-normal)); /* normalの時1px*/
+  margin-left: calc(1px * var(--is-vertical));  /* verticalの時1px */
+
 }
 
 .flip-page-double-summary-even-dark {
@@ -415,7 +413,8 @@ export default {
   text-align: left;
   float: left;
   vertical-align: middle;
-  margin-left: 1px;
+  margin-left: calc(1px * var(--is-normal)); /* normalの時1px*/
+  margin-right: calc(1px * var(--is-vertical));  /* verticalの時1px */
 }
 
 
