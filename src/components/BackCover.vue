@@ -10,14 +10,12 @@
           >
             <fitty :options="fittyOptions"><template v-slot:content><span>{{ item.title }}</span></template></fitty>
           </li>
-          <detail :item="content" v-show="showDetail" @close="closeDetail"/>
           </div>
         </ul>
     </div>
 </template>
 
 <script>
-import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
 import Vue from 'vue';
 import Fitty from 'vue-fitty' ;
@@ -97,7 +95,6 @@ var items = [
           ]
 export default {
     components: {
-      Detail
     },
     data () {
         return {
@@ -151,12 +148,16 @@ export default {
       },
 
       openDetail(item) {
-        this.showDetail = true
-        this.content = item
+        this.$modal.show('book-detail', {
+          title: item.title,
+          author: item.author,
+          itemCaption: item.itemCaption,
+          largeImageUrl:item.largeImageUrl
+        })
       },
 
       closeDetail() {
-        this.showDetail = false
+        this.$modal.hide('book-detail')
       },
       assignColor(item) {
         return "book-nav-items" + String(this.coverColorType[item.publisherName]);

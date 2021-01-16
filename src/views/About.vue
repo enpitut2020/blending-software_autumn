@@ -4,6 +4,7 @@
       <originalHeader />
       <heroComponent />
       <backcover />
+      <Detail />
     </v-container>
   </v-app>
 </template>
@@ -12,10 +13,12 @@
 import originalHeader from "@/components/OriginalHeader";
 import backcover from "@/components/BackCover";
 import heroComponent from "@/components/HeroComponent";
+import Detail from "@/components/Detail";
 
 export default {
   name: "About",
   components: {
+    Detail,
     originalHeader,
     backcover,
     heroComponent,
