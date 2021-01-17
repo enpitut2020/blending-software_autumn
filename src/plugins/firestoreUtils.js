@@ -25,7 +25,7 @@ const Db = {
     Vue.prototype.$getBooksData = async function getBooksData() {
       const booksData = await db
             .collection("test_books")
-            .limit(20)
+            .limit(50)
             .get()
             .then(querySnapshot => {
               console.debug("キャッシュからデータを取得しました");
@@ -36,6 +36,11 @@ const Db = {
                 // object
                 // booksData[data.id] = data.data();
               });
+              // booksDataをランダムにシャッフル
+              for (let i = booksData.length - 1; i >= 0; i--) {
+                const randomNumber = Math.floor(Math.random() * (i + 1));
+                [booksData[i], booksData[randomNumber]] = [booksData[randomNumber], booksData[i]];
+               }
               return booksData;
             })
             .catch(()=>{
