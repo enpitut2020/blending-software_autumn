@@ -23,6 +23,7 @@ const db = firebase.firestore()
 const Db = {
   install(Vue) {
     Vue.prototype.$getBooksData = async function getBooksData() {
+      var last_isbn;
       const booksData = await db
             .collection("test_books")
             .orderBy('isbn')
@@ -37,6 +38,8 @@ const Db = {
                 // object
                 // booksData[data.id] = data.data();
               });
+              // 最後尾の書籍のISBNを保存
+              last_isbn = booksData[booksData.length-1].isbn
               // booksDataをランダムにシャッフル
               for (let i = booksData.length - 1; i >= 0; i--) {
                 const randomNumber = Math.floor(Math.random() * (i + 1));
@@ -47,14 +50,15 @@ const Db = {
             .catch(()=>{
               alert("firestoreからのデータの取得でエラーが発生しました")
             });
-      return booksData;
+      return {data: booksData, last_isbn: last_isbn};
     };
 
-    Vue.prototype.$addBooksData = async function addBooksData(book) {
+    Vue.prototype.$addBooksData = async function addBooksData(current_last_isbn) {
+      var last_isbn;
       const booksData = await db
             .collection("test_books")
             .orderBy('isbn')
-            .startAfter(book.isbn)
+            .startAfter(current_last_isbn)
             .limit(20)
             .get()
             .then(querySnapshot => {
@@ -66,6 +70,8 @@ const Db = {
                 // object
                 // booksData[data.id] = data.data();
               });
+              // 最後尾の書籍のISBNを保存
+              last_isbn = booksData[booksData.length-1].isbn
               // booksDataをランダムにシャッフル
               for (let i = booksData.length - 1; i >= 0; i--) {
                 const randomNumber = Math.floor(Math.random() * (i + 1));
@@ -76,7 +82,7 @@ const Db = {
             .catch(()=>{
               alert("firestoreからのデータの取得でエラーが発生しました")
             });
-      return booksData;
+      return {data: booksData, last_isbn: last_isbn};
     };
 
     Vue.prototype.$getUsersData = async function getUsersData() {

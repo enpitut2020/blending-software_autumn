@@ -36,12 +36,15 @@ export default {
           content: "",
           select: [],
           items: [],
+          last_isbn: 0,
           displayItems: items,
         }
     },
     created() {
       this.$getBooksData().then((books) => {
-        this.items = books
+        this.items = books.data
+        this.last_isbn = books.last_isbn
+        //console.log(books.last_isbn)
       });
     },
     mounted: function() {
@@ -55,7 +58,7 @@ export default {
           $state.loaded();
         }, 1500)
         const new_items_len = this.items.length
-        if (old_items_len == new_items_len) {
+        if (old_items_len != new_items_len &&new_items_len < old_items_len + 20) {
           console.log("complete")
           $state.complete();
         }
@@ -64,8 +67,9 @@ export default {
       addData() {
         const l = this.items.length
         console.log(l)
-        this.$addBooksData(this.items[l-1]).then((books) => {
-          this.items = this.items.concat(books)
+        this.$addBooksData(this.last_isbn).then((books) => {
+          this.items = this.items.concat(books.data)
+          this.last_isbn = books.last_isbn
         });
       },
 
