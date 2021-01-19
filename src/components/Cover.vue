@@ -3,7 +3,7 @@
 <template>
   <v-main id="books">
     <div infinite-wrapper>
-    <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
+    <v-img v-bind:class="[book_class, book_type[item.size]]" 
       v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
       alt=""></v-img>
     <detail :item="content" v-show="showDetail" @close="closeDetail"/>
@@ -32,7 +32,18 @@ export default {
     data () {
         return {
           showDetail: false,
-          isBook: true,
+          cover_size: '',
+          book_class: 'book',
+          book_type: {'単行本':'size_a',
+                      '文庫':'size_b',
+                      '新書':'size_c',
+                      '全集・双書':'size_a',
+                      '事・辞典':'size_b',
+                      '図鑑':'size_d',
+                      '絵本':'size_d',
+                      'カセット,CDなど':'size_a',
+                      'コミック':'size_c',
+                      'ムックその他':'size_e'},
           content: "",
           select: [],
           items: [],
@@ -126,19 +137,34 @@ main {
     background-color: #DEB887;
 }
 
-.size_s {
-    width: 100px;
-    height: 150px;
+/* 単行本, 全集・双書, カセット,CDなど */
+.size_a {
+    width: 128px;
+    height: 182px;
 }
 
-.size_m {
-    width: 150px;
-    height: 200px;
+/* 文庫, 事・辞典 */
+.size_b {
+    width: 105px;
+    height: 148px;
 }
 
-.size_l {
-    width: 200px;
-    height: 300px;
+/* 新書, コミック */
+.size_c {
+    width: 103px;
+    height: 182px;
+}
+
+/* 図鑑, 絵本 */
+.size_d {
+    width: 210px;
+    height: 297px;
+}
+
+/* ムックその他 */
+.size_e {
+    width: 182px;
+    height: 257px;
 }
 
 .book:hover {
