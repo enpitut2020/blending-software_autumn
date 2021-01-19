@@ -2,7 +2,6 @@
 
 <template>
   <v-main id="books">
-    <div infinite-wrapper>
     <v-img v-bind:class="[book_class, book_type[item.size]]" 
       v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
       alt=""></v-img>
@@ -12,7 +11,6 @@
       <div slot="no-more">もう検索データが無いよ！</div>
       <div slot="no-results">検索結果が無い！</div>
     </infinite-loading>
-    </div>
   </v-main>
 </template>
 
