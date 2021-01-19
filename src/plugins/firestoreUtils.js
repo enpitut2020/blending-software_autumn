@@ -25,7 +25,37 @@ const Db = {
     Vue.prototype.$getBooksData = async function getBooksData() {
       const booksData = await db
             .collection("test_books")
-            .limit(50)
+            .orderBy('isbn')
+            .limit(20)
+            .get()
+            .then(querySnapshot => {
+              console.debug("キャッシュからデータを取得しました");
+              const booksData = [];
+              querySnapshot.forEach(data => {
+                // 配列
+                booksData.push(data.data());
+                // object
+                // booksData[data.id] = data.data();
+              });
+              // booksDataをランダムにシャッフル
+              for (let i = booksData.length - 1; i >= 0; i--) {
+                const randomNumber = Math.floor(Math.random() * (i + 1));
+                [booksData[i], booksData[randomNumber]] = [booksData[randomNumber], booksData[i]];
+               }
+              return booksData;
+            })
+            .catch(()=>{
+              alert("firestoreからのデータの取得でエラーが発生しました")
+            });
+      return booksData;
+    };
+
+    Vue.prototype.$addBooksData = async function addBooksData(book) {
+      const booksData = await db
+            .collection("test_books")
+            .orderBy('isbn')
+            .startAfter(book.isbn)
+            .limit(20)
             .get()
             .then(querySnapshot => {
               console.debug("キャッシュからデータを取得しました");

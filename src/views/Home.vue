@@ -22,6 +22,6 @@ export default {
     cover,
     detail,
     heroComponent,
-  }
+  },
 };
 </script>

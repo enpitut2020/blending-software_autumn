@@ -1,12 +1,19 @@
 // 書籍の表紙を表示するためのコンポーネント
 
 <template>
-        <v-main id="books">
-          <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
-            v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
-            alt=""></v-img>
-            <detail :item="content" v-show="showDetail" @close="closeDetail"/>
-        </v-main>
+  <v-main id="books">
+    <div infinite-wrapper>
+    <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
+      v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
+      alt=""></v-img>
+    <detail :item="content" v-show="showDetail" @close="closeDetail"/>
+    <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+      <div slot="spinner">ロード中...</div>
+      <div slot="no-more">もう検索データが無いよ！</div>
+      <div slot="no-results">検索結果が無い！</div>
+    </infinite-loading>
+    </div>
+  </v-main>
 </template>
 
 <script>
@@ -17,7 +24,7 @@ Vue.use(Db)
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
 var items = [];
-
+  
 export default {
     components: {
       Detail
@@ -29,13 +36,39 @@ export default {
           content: "",
           select: [],
           items: [],
-          displayItems: items
+          displayItems: items,
         }
+    },
+    created() {
+      this.$getBooksData().then((books) => {
+        this.items = books
+      });
     },
     mounted: function() {
       OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
     },
     methods: {
+      infiniteHandler($state) {
+        const old_items_len = this.items.length
+        setTimeout(() => {
+          this.addData()
+          $state.loaded();
+        }, 1500)
+        const new_items_len = this.items.length
+        if (old_items_len == new_items_len) {
+          console.log("complete")
+          $state.complete();
+        }
+      },
+
+      addData() {
+        const l = this.items.length
+        console.log(l)
+        this.$addBooksData(this.items[l-1]).then((books) => {
+          this.items = this.items.concat(books)
+        });
+      },
+
       displayCategoryData: function(select) {
         this.select = select;
         this.displayItems = this.categoryFilter()
@@ -60,12 +93,6 @@ export default {
       closeDetail() {
         this.showDetail = false
       },
-    },
-    created() {
-      this.$getBooksData().then((books) => {
-        this.items = books;
-        console.log(this.items)
-      });
     },
     computed: {
       categoryItems: function() {
