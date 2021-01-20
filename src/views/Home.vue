@@ -1,9 +1,11 @@
 <template>
   <v-app>
     <v-container>
-      <originalHeader />
+      <originalHeader v-on:currentView="currentView = $event"></originalHeader>
       <heroComponent />
-      <cover />
+      <div class="content">
+        <component :is="currentView"></component>
+      </div>
     </v-container>
   </v-app>
 </template>
@@ -11,6 +13,7 @@
 <script>
 import originalHeader from "@/components/OriginalHeader.vue";
 import cover from "@/components/Cover.vue";
+import backcover from "@/components/BackCover.vue";
 import heroComponent from "@/components/HeroComponent.vue";
 
 export default {
@@ -18,7 +21,13 @@ export default {
   components: {
     originalHeader,
     cover,
+    backcover,
     heroComponent,
+  },
+  data() {
+    return {
+      currentView: "cover",
+    }
   },
 };
 </script>
