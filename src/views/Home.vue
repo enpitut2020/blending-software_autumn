@@ -6,7 +6,6 @@
       <div class="content">
         <component :is="currentView"></component>
       </div>
-      <detail />
     </v-container>
   </v-app>
 </template>
@@ -15,7 +14,6 @@
 import originalHeader from "@/components/OriginalHeader.vue";
 import cover from "@/components/Cover.vue";
 import backcover from "@/components/BackCover.vue";
-import detail from "@/components/Detail.vue";
 import heroComponent from "@/components/HeroComponent.vue";
 
 export default {
@@ -24,7 +22,6 @@ export default {
     originalHeader,
     cover,
     backcover,
-    detail,
     heroComponent,
   },
   data() {
