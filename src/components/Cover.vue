@@ -42,7 +42,7 @@ export default {
                       'コミック':'size_c',
                       'ムックその他':'size_e'},
           content: "",
-          select: [],
+          select: "",
           items: [],
           last_isbn: 0,
         }
@@ -55,9 +55,25 @@ export default {
       });
     },
     mounted: function() {
-      OriginalHeader.data().bus.$on('change-category', this.addData)
+      OriginalHeader.data().bus.$on('change-category', this.categoryFilter); // カテゴリ変更があった場合に、表示済みの書籍を該当カテゴリのみの書籍にする。
+      OriginalHeader.data().bus.$on('change-category', this.addData);
     },
     methods: {
+      categoryFilter () {
+        // filter内の関数に用いるために変数を再度用意
+        const select = select;
+        if (select !== "指定しない" && select !== "") {
+          this.items = this.items.filter(function(item) {
+            return [select].includes(item.category);
+          })
+        } else {
+          this.$getBooksData().then((books) => {
+            this.items = books.data
+            this.last_isbn = books.last_isbn
+          });
+        }
+      },
+
       infiniteHandler($state) {
         const old_items_len = this.items.length
         setTimeout(() => {
@@ -71,19 +87,15 @@ export default {
         }
       },
 
-      addData(select=[]) {
+      addData(select) {
+        console.log(this.items)
         const l = this.items.length
         console.log(l)
-        this.select= select;
-        this.select.forEach(category => {
-            this.$addBooksData(this.last_isbn, category).then((books) => {
+        this.select = select;
+        this.$addBooksData(this.last_isbn, select).then((books) => {
             this.items = this.items.concat(books.data)
             this.last_isbn = books.last_isbn
-          });    
-        });
-        this.items = this.items.filter(function (item) {
-                      return select.includes(item.category)
-                    })
+        });  
       },
 
       openDetail(item) {
