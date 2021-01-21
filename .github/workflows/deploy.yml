@@ -9,10 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # hub コマンドをインストールする
-      - name: install hub
-        uses: geertvdc/setup-hub@master
-
       # masterブランチをチェックアウトする
       - name: checkout master
         uses: actions/checkout@v2
