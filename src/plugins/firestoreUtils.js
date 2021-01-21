@@ -22,12 +22,13 @@ const db = firebase.firestore()
 
 const Db = {
   install(Vue) {
-    Vue.prototype.$getBooksData = async function getBooksData() {
+    Vue.prototype.$getBooksData = async function getBooksData(category) {
       var last_isbn;
       const booksData = await db
             .collection("test_books")
             .orderBy('isbn')
             .limit(20)
+            .where("category", "==", category)
             .get()
             .then(querySnapshot => {
               console.debug("キャッシュからデータを取得しました");
@@ -53,11 +54,12 @@ const Db = {
       return {data: booksData, last_isbn: last_isbn};
     };
 
-    Vue.prototype.$addBooksData = async function addBooksData(current_last_isbn) {
+    Vue.prototype.$addBooksData = async function addBooksData(current_last_isbn, category) {
       var last_isbn;
       const booksData = await db
             .collection("test_books")
             .orderBy('isbn')
+            .where("category", "==", category)
             .startAfter(current_last_isbn)
             .limit(20)
             .get()

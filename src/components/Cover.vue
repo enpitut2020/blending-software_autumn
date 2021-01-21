@@ -50,7 +50,7 @@ export default {
         }
     },
     created() {
-      this.$getBooksData().then((books) => {
+      this.$getBooksData(this.select[0]).then((books) => {
         this.items = books.data
         this.last_isbn = books.last_isbn
         //console.log(books.last_isbn)
@@ -76,10 +76,13 @@ export default {
       addData() {
         const l = this.items.length
         console.log(l)
-        this.$addBooksData(this.last_isbn).then((books) => {
-          this.items = this.items.concat(books.data)
-          this.last_isbn = books.last_isbn
+        this.select.forEach(category => {
+            this.$addBooksData(this.last_isbn, category).then((books) => {
+            this.items = this.items.concat(books.data)
+            this.last_isbn = books.last_isbn
+          });    
         });
+
         this.displayCategoryData(this.select);
       },
 
