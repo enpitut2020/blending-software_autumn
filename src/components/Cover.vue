@@ -3,7 +3,7 @@
 <template>
 <div>
   <div v-if="isBackCover">
-    <BackCover :items="items"/>
+    <BackCover :items.sync="items" :last_isbn.sync="last_isbn"/>
   </div>
   <template v-else>
   <v-main id="books">

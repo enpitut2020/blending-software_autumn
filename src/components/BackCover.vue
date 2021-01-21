@@ -13,13 +13,21 @@
           <detail :item="content" v-show="showDetail" @close="closeDetail"/>
           </div>
         </ul>
+        <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+          <div slot="spinner">ロード中...</div>
+          <div slot="no-more">もう検索データが無いよ！</div>
+          <div slot="no-results">検索結果が無い！</div>
+        </infinite-loading>
     </div>
 </template>
 
 <script>
+import Vue from 'vue';
+import Db from "@/plugins/firestoreUtils.js";
+Vue.use(Db)
+
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
-import Vue from 'vue';
 import Fitty from 'vue-fitty' ;
 // Install plugin 
 Vue.use(Fitty);
@@ -28,9 +36,11 @@ export default {
     components: {
       Detail
     },
-    props:["items"],
+    props:["items", "last_isbn"],
     data () {
         return {
+          backCover_items: this.items,
+          backCover_last_isbn: this.last_isbn,
           showDetail: false,
           content: "",
           fittyOptions: {
@@ -39,18 +49,18 @@ export default {
             multiLine: true,
           },
           baseCoverHeight: 200,
-          // 147ミリの文庫本をもとに高さ倍率を算出
+          // 文庫本をもとに高さ倍率を算出
           coverHightMagnification : {
             "単行本": 1.24, 
             "文庫": 1.00,  
             "新書": 1.24, 
             '全集・双書':1.00,
             '事・辞典':1.00,
-            '図鑑':2.00,
-            '絵本':2.00,
+            '図鑑':1.80,
+            '絵本':1.80,
             'カセット,CDなど':1.00,
             'コミック':1.24,
-            'ムックその他':1.75
+            'ムックその他':1.50
           },
           coverColorType : {
             '文庫': 0,
@@ -61,7 +71,7 @@ export default {
             '資格・検定': 1,
             '語学・学習参考書': 1,
             '美容・暮らし・健康・料理': 2,
-            '旅行・留学': 2,
+            '旅行・留学・アウトドア': 2,
             'エンタメ・ゲーム': 2,
             'ホビー・スポーツ・美術': 2,
             '絵本・児童書・図鑑': 2,
@@ -84,9 +94,34 @@ export default {
     },
     mounted: function() {
       OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
-      console.log(this.items)
+      this.displayItems = this.backCover_items
     },
     methods: {
+      infiniteHandler($state) {
+        const old_items_len = this.backCover_items.length
+        setTimeout(() => {
+          this.addData()
+          this.$emit('update:items', this.backCover_items)
+          this.$emit('update:last_isbn', this.backCover_last_isbn)
+          $state.loaded();
+        }, 1500)
+        const new_items_len = this.backCover_items.length
+        if (old_items_len != new_items_len && new_items_len < old_items_len + 20) {
+          console.log("complete")
+          $state.complete();
+        }
+      },
+
+      addData() {
+        const l = this.backCover_items.length
+        console.log(l)
+        this.$addBooksData(this.last_isbn).then((books) => {
+          this.backCover_items = this.backCover_items.concat(books.data)
+          this.displayItems = this.backCover_items
+          this.backCover_last_isbn = books.last_isbn
+        });
+      },
+
       displayCategoryData: function(select) {
         this.select = select;
         this.displayItems = this.categoryFilter()
@@ -94,11 +129,11 @@ export default {
 
       categoryFilter() {
         if (this.select.length === 0) {
-          return this.items;
+          return this.backCover_items;
         }
 
         var selectedCategory = this.select;
-        return this.items.filter(function (item) {
+        return this.backCover_items.filter(function (item) {
           return selectedCategory.includes(item.category)
         })
       },
@@ -119,7 +154,7 @@ export default {
         let row_arr = [];
         for (let i=0; i<items.length; i++) {
             row_arr.push(items[i]);
-            if (i%10 == 9 || i == items.length-1) {
+            if (i%20 == 19 || i == items.length-1) {
                 arr.push(row_arr);
                 row_arr = [];
             }
@@ -127,9 +162,13 @@ export default {
         return arr;
       },
       styles(item) {
+        let heightMagnification = 1.00;
+        if (item.size !== "") {
+          heightMagnification = this.coverHightMagnification[item.size]
+        }
         let coverWidth = Math.floor(item.pages/4);
         let titleWidth = Math.floor(coverWidth * 0.8);
-        let coverHeight = Math.floor(this.baseCoverHeight * this.coverHightMagnification[item.size])
+        let coverHeight = Math.floor(this.baseCoverHeight * heightMagnification)
         let titleHeight = Math.floor(coverHeight * 0.8);
         return {
           '--coverWidth': String(coverWidth) + "px",
