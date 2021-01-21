@@ -30,14 +30,12 @@
         </v-row>
         </v-container>
         <v-switch v-model="isBackCover" @click="switchCover" :label="'背表紙モード'"></v-switch>
-        <history />
       </v-app-bar>
     </header>
 </template>
 
 <script>
 import Vue from 'vue';
-import history from "@/components/History.vue";
 const bus = new Vue();
   export default {
     data () {
@@ -83,8 +81,5 @@ const bus = new Vue();
         bus.$emit('isBackCover', this.isBackCover)
       }
     },
-    components: {
-        history
-    }
   }
 </script>
