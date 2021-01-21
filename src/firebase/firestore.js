@@ -13,4 +13,5 @@ if (!firebase.apps.length) {
   };
   firebase.initializeApp(config);
 }
+console.log(process.env.VUE_APP_TTEST);
 export default firebase
