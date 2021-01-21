@@ -11,7 +11,7 @@ jobs:
     steps:
       # hub コマンドをインストールする
       - name: install hub
-        uses: geertvdc/setup-hub@v1.0.0
+        uses: geertvdc/setup-hub@v2.14.2
 
       # masterブランチをチェックアウトする
       - name: checkout master
