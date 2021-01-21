@@ -3,7 +3,7 @@
 <template>
   <v-main id="books">
     <v-img v-bind:class="[book_class, book_type[item.size]]" 
-      v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
+      v-for="(item, key) in displayItems" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
       alt=""></v-img>
     <detail :item="content" v-show="showDetail" @close="closeDetail"/>
     <infinite-loading @infinite="infiniteHandler" spinner="spiral">
@@ -80,22 +80,23 @@ export default {
           this.items = this.items.concat(books.data)
           this.last_isbn = books.last_isbn
         });
+        this.displayCategoryData(this.select);
       },
 
       displayCategoryData: function(select) {
         this.select = select;
-        this.displayItems = this.categoryFilter()
+        this.displayItems = this.categoryFilter();
       },
 
       categoryFilter() {
         if (this.select.length === 0) {
-          return items;
+          return this.items;
         }
 
         var selectedCategory = this.select;
-        return items.filter(function (item) {
-          return selectedCategory.includes(item.category)
-        })
+        return this.items.filter(function (item) {
+          return (selectedCategory.includes(item.category))// || selectedCategory.includes(item.subcategory))
+        });
       },
 
       openDetail(item) {
