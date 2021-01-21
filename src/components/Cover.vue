@@ -3,7 +3,7 @@
 <template>
   <v-main id="books">
     <v-img v-bind:class="[book_class, book_type[item.size]]" 
-      v-for="(item, key) in displayItems" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
+      v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
       alt=""></v-img>
     <detail :item="content" v-show="showDetail" @close="closeDetail"/>
     <infinite-loading @infinite="infiniteHandler" spinner="spiral">
@@ -21,7 +21,6 @@ Vue.use(Db)
 
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
-var items = [];
   
 export default {
     components: {
@@ -46,24 +45,23 @@ export default {
           select: [],
           items: [],
           last_isbn: 0,
-          displayItems: items,
         }
     },
     created() {
-      this.$getBooksData(this.select[0]).then((books) => {
+      this.$getBooksData().then((books) => {
         this.items = books.data
         this.last_isbn = books.last_isbn
         //console.log(books.last_isbn)
       });
     },
     mounted: function() {
-      OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
+      OriginalHeader.data().bus.$on('change-category', this.addData)
     },
     methods: {
       infiniteHandler($state) {
         const old_items_len = this.items.length
         setTimeout(() => {
-          this.addData()
+          this.addData(this.select);
           $state.loaded();
         }, 1500)
         const new_items_len = this.items.length
@@ -73,33 +71,19 @@ export default {
         }
       },
 
-      addData() {
+      addData(select=[]) {
         const l = this.items.length
         console.log(l)
+        this.select= select;
         this.select.forEach(category => {
             this.$addBooksData(this.last_isbn, category).then((books) => {
             this.items = this.items.concat(books.data)
             this.last_isbn = books.last_isbn
           });    
         });
-
-        this.displayCategoryData(this.select);
-      },
-
-      displayCategoryData: function(select) {
-        this.select = select;
-        this.displayItems = this.categoryFilter();
-      },
-
-      categoryFilter() {
-        if (this.select.length === 0) {
-          return this.items;
-        }
-
-        var selectedCategory = this.select;
-        return this.items.filter(function (item) {
-          return (selectedCategory.includes(item.category))// || selectedCategory.includes(item.subcategory))
-        });
+        this.items = this.items.filter(function (item) {
+                      return select.includes(item.category)
+                    })
       },
 
       openDetail(item) {
@@ -110,13 +94,6 @@ export default {
       closeDetail() {
         this.showDetail = false
       },
-    },
-    computed: {
-      categoryItems: function() {
-        return this.items.filter(function (item) {
-          return OriginalHeader.data().select.includes(item.category)
-        })
-      }
     }
 }
 
