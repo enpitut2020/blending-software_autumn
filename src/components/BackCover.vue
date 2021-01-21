@@ -1,23 +1,24 @@
 <template>
     <div>
-        <ul v-for="(row_items, row_key) in reshapeItems(displayItems)" :key="row_key" class="book-nav">
-          <div>
-          <li v-for="(item, item_key) in row_items" :key="item_key" 
-          :class="assignColor(item)"
-          :style="styles(item)" 
-          id="back-cover" 
-          @click="openDetail(item)" 
-          >
-            <fitty :options="fittyOptions"><template v-slot:content><span>{{ item.title }}</span></template></fitty>
-          </li>
-          <detail :item="content" v-show="showDetail" @close="closeDetail"/>
-          </div>
-        </ul>
-        <infinite-loading @infinite="infiniteHandler" spinner="spiral">
-          <div slot="spinner">ロード中...</div>
-          <div slot="no-more">もう検索データが無いよ！</div>
-          <div slot="no-results">検索結果が無い！</div>
-        </infinite-loading>
+      <ColorTips />
+      <ul v-for="(row_items, row_key) in reshapeItems(displayItems)" :key="row_key" class="book-nav">
+        <div>
+        <li v-for="(item, item_key) in row_items" :key="item_key" 
+        :class="assignColor(item)"
+        :style="styles(item)" 
+        id="back-cover" 
+        @click="openDetail(item)" 
+        >
+          <fitty :options="fittyOptions"><template v-slot:content><span>{{ item.title }}</span></template></fitty>
+        </li>
+        <detail :item="content" v-show="showDetail" @close="closeDetail"/>
+        </div>
+      </ul>
+      <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+        <div slot="spinner">ロード中...</div>
+        <div slot="no-more">もう検索データが無いよ！</div>
+        <div slot="no-results">検索結果が無い！</div>
+      </infinite-loading>
     </div>
 </template>
 
@@ -28,13 +29,15 @@ Vue.use(Db)
 
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
+import ColorTips from "@/components/ColorTips";
 import Fitty from 'vue-fitty' ;
 // Install plugin 
 Vue.use(Fitty);
 
 export default {
     components: {
-      Detail
+      Detail,
+      ColorTips,
     },
     props:["items", "last_isbn"],
     data () {
@@ -42,6 +45,7 @@ export default {
           backCover_items: this.items,
           backCover_last_isbn: this.last_isbn,
           showDetail: false,
+          tooltip_show: false,
           content: "",
           fittyOptions: {
             minSize: 1,
