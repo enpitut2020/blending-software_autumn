@@ -1,6 +1,11 @@
 // 書籍の表紙を表示するためのコンポーネント
 
 <template>
+<div>
+  <div v-if="isBackCover">
+    <BackCover :items="items"/>
+  </div>
+  <template v-else>
   <v-main id="books">
     <v-img v-bind:class="[book_class, book_type[item.size]]" 
       v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
@@ -12,6 +17,8 @@
       <div slot="no-results">検索結果が無い！</div>
     </infinite-loading>
   </v-main>
+  </template>
+</div>
 </template>
 
 <script>
@@ -21,11 +28,13 @@ Vue.use(Db)
 
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
+import BackCover from "@/components/BackCover.vue";
 var items = [];
   
 export default {
     components: {
-      Detail
+      Detail,
+      BackCover,
     },
     data () {
         return {
@@ -47,6 +56,7 @@ export default {
           items: [],
           last_isbn: 0,
           displayItems: items,
+          isBackCover: false,
         }
     },
     created() {
@@ -58,6 +68,7 @@ export default {
     },
     mounted: function() {
       OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
+      OriginalHeader.data().bus.$on('isBackCover', this.switchDisplay)
     },
     methods: {
       infiniteHandler($state) {
@@ -85,6 +96,10 @@ export default {
       displayCategoryData: function(select) {
         this.select = select;
         this.displayItems = this.categoryFilter()
+      },
+
+      switchDisplay: function(isBackCover) {
+        this.isBackCover = isBackCover;
       },
 
       categoryFilter() {

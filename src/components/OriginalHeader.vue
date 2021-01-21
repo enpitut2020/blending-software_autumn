@@ -77,17 +77,10 @@ const bus = new Vue();
     },
     methods: {
       categorySearch: function() {
-        console.log(bus.$on)
         bus.$emit('change-category', this.select);
       },
       switchCover() {
-        if (this.isBackCover) {
-          this.$emit("currentView", "backcover");
-        }
-        else {
-          this.$emit("currentView", "cover");
-        }
-
+        bus.$emit('isBackCover', this.isBackCover)
       }
     },
     components: {
