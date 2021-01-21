@@ -1,17 +1,28 @@
 // 書籍の表紙を表示するためのコンポーネント
 
 <template>
-        <v-main id="books">
-          <v-img v-bind:class="{book: isBook, size_s: item.isSizeS, size_m: item.isSizeM, size_l: item.isSizeL, size_hover: item.isSizeHover}" 
-            v-for="(item, key) in categoryItems" :key="key" :src="item.img_path" @click="openDetail(item)"
-            alt=""></v-img>
-            <detail :item="content" v-show="showDetail" @close="closeDetail"/>
-        </v-main>
+  <v-main id="books">
+    <v-img v-bind:class="[book_class, book_type[item.size]]" 
+      v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
+      alt=""></v-img>
+    <detail :item="content" v-show="showDetail" @close="closeDetail"/>
+    <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+      <div slot="spinner">ロード中...</div>
+      <div slot="no-more">もう検索データが無いよ！</div>
+      <div slot="no-results">検索結果が無い！</div>
+    </infinite-loading>
+  </v-main>
 </template>
 
 <script>
+import Vue from "vue";
+import Db from "@/plugins/firestoreUtils.js";
+Vue.use(Db)
+
 import Detail from "@/components/Detail";
 import OriginalHeader from "@/components/OriginalHeader.vue";
+var items = [];
+  
 export default {
     components: {
       Detail
@@ -19,13 +30,73 @@ export default {
     data () {
         return {
           showDetail: false,
-          isBook: true,
+          cover_size: '',
+          book_class: 'book',
+          book_type: {'単行本':'size_a',
+                      '文庫':'size_b',
+                      '新書':'size_c',
+                      '全集・双書':'size_a',
+                      '事・辞典':'size_b',
+                      '図鑑':'size_d',
+                      '絵本':'size_d',
+                      'カセット,CDなど':'size_a',
+                      'コミック':'size_c',
+                      'ムックその他':'size_e'},
           content: "",
-            items: [
-            ]
+          select: [],
+          items: [],
+          last_isbn: 0,
+          displayItems: items,
         }
     },
+    created() {
+      this.$getBooksData().then((books) => {
+        this.items = books.data
+        this.last_isbn = books.last_isbn
+        //console.log(books.last_isbn)
+      });
+    },
+    mounted: function() {
+      OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
+    },
     methods: {
+      infiniteHandler($state) {
+        const old_items_len = this.items.length
+        setTimeout(() => {
+          this.addData()
+          $state.loaded();
+        }, 1500)
+        const new_items_len = this.items.length
+        if (old_items_len != new_items_len &&new_items_len < old_items_len + 20) {
+          console.log("complete")
+          $state.complete();
+        }
+      },
+
+      addData() {
+        const l = this.items.length
+        console.log(l)
+        this.$addBooksData(this.last_isbn).then((books) => {
+          this.items = this.items.concat(books.data)
+          this.last_isbn = books.last_isbn
+        });
+      },
+
+      displayCategoryData: function(select) {
+        this.select = select;
+        this.displayItems = this.categoryFilter()
+      },
+
+      categoryFilter() {
+        if (this.select.length === 0) {
+          return items;
+        }
+
+        var selectedCategory = this.select;
+        return items.filter(function (item) {
+          return selectedCategory.includes(item.category)
+        })
+      },
 
       openDetail(item) {
         this.showDetail = true
@@ -36,7 +107,6 @@ export default {
         this.showDetail = false
       },
     },
-
     computed: {
       categoryItems: function() {
         return this.items.filter(function (item) {
@@ -45,6 +115,7 @@ export default {
       }
     }
 }
+
 </script>
 
 <style scoped>
@@ -64,23 +135,37 @@ main {
     background-color: #DEB887;
 }
 
-.size_s {
-    width: 150px;
-    height: 200px;
+/* 単行本, 全集・双書, カセット,CDなど */
+.size_a {
+    width: 128px;
+    height: 182px;
 }
 
-.size_m {
-    width: 200px;
-    height: 300px;
+/* 文庫, 事・辞典 */
+.size_b {
+    width: 105px;
+    height: 148px;
 }
 
-.size_l {
-    width: 300px;
-    height: 500px;
+/* 新書, コミック */
+.size_c {
+    width: 103px;
+    height: 182px;
+}
+
+/* 図鑑, 絵本 */
+.size_d {
+    width: 210px;
+    height: 297px;
+}
+
+/* ムックその他 */
+.size_e {
+    width: 182px;
+    height: 257px;
 }
 
 .book:hover {
-    width: 350px;/*150px;*/
-    height: 550px;/*200px;*/
+    transform: scale(1.1);
 }
 </style>
