@@ -864,14 +864,14 @@ export default {
 
       // For debug
       // this.author = "ああああああああああああああああああああああああ"
-      this.publisherName = "講談社"
-      this.isbn = 100
-      this.itemPrice = 10000000
-      this.category = "文学"
-      this.subcategory = "その他"
-      this.salesDate = "2020"
-      this.size = "絵本"
-      this.itemUrl = "https://webservice.rakuten.co.jp/api/booksbooksearch/"
+      // this.publisherName = "講談社"
+      // this.isbn = 100
+      // this.itemPrice = 10000000
+      // this.category = "文学"
+      // this.subcategory = "その他"
+      // this.salesDate = "2020"
+      // this.size = "絵本"
+      // this.itemUrl = "https://webservice.rakuten.co.jp/api/booksbooksearch/"
 
     },
 

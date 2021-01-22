@@ -154,7 +154,15 @@ export default {
           title: item.title,
           author: item.author,
           itemCaption: item.itemCaption,
-          largeImageUrl:item.largeImageUrl
+          largeImageUrl:item.largeImageUrl,
+          itemUrl : item.itemUrl, // 楽天ブックスのURL
+          publisherName: item.publisherName,
+          isbn : item.isbn,
+          itemPrice : item.itemPrice,
+          category : item.category,
+          subcategory : item.subcategory,
+          salesDate : item.salesDate,
+          size: item.size,
         })
       },
 
