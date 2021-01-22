@@ -1,17 +1,24 @@
 // 書籍の表紙を表示するためのコンポーネント
 
 <template>
+<div>
+  <div v-if="isBackCover">
+    <BackCover :items.sync="items" :last_isbn.sync="last_isbn"/>
+  </div>
+  <template v-else>
   <v-main id="books">
     <v-img v-bind:class="[book_class, book_type[item.size]]" 
       v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
       alt=""></v-img>
-    <detail :item="content" v-show="showDetail" @close="closeDetail"/>
+ <!--  <detail :item="content" v-show="showDetail" @close="closeDetail"/> -->
     <infinite-loading @infinite="infiniteHandler" spinner="spiral">
       <div slot="spinner">ロード中...</div>
       <div slot="no-more">もう検索データが無いよ！</div>
       <div slot="no-results">検索結果が無い！</div>
     </infinite-loading>
   </v-main>
+  </template>
+</div>
 </template>
 
 <script>
@@ -19,12 +26,15 @@ import Vue from "vue";
 import Db from "@/plugins/firestoreUtils.js";
 Vue.use(Db)
 
-import Detail from "@/components/Detail";
+// import Detail from "@/components/Detail";
+
 import OriginalHeader from "@/components/OriginalHeader.vue";
+import BackCover from "@/components/BackCover.vue";
   
 export default {
     components: {
-      Detail
+      // Detail
+      BackCover
     },
     data () {
         return {
@@ -45,6 +55,7 @@ export default {
           select: "",
           items: [],
           last_isbn: 0,
+          isBackCover: false,
         }
     },
     created() {
@@ -57,6 +68,7 @@ export default {
     mounted: function() {
       OriginalHeader.data().bus.$on('change-category', this.categoryFilter); // カテゴリ変更があった場合に、表示済みの書籍を該当カテゴリのみの書籍にする。
       OriginalHeader.data().bus.$on('change-category', this.addData);
+      OriginalHeader.data().bus.$on('isBackCover', this.switchDisplay)
     },
     methods: {
       categoryFilter () {
@@ -88,7 +100,6 @@ export default {
       },
 
       addData(select) {
-        console.log(this.items)
         const l = this.items.length
         console.log(l)
         this.select = select;
@@ -98,13 +109,30 @@ export default {
         });  
       },
 
+      switchDisplay: function(isBackCover) {
+        this.isBackCover = isBackCover;
+      },
+
       openDetail(item) {
-        this.showDetail = true
-        this.content = item
+        this.$modal.show('book-detail', {
+          title: item.title,
+          author: item.author,
+          itemCaption: item.itemCaption,
+          largeImageUrl:item.largeImageUrl,
+          itemUrl : item.itemUrl, // 楽天ブックスのURL
+          publisherName: item.publisherName,
+          isbn : item.isbn,
+          itemPrice : item.itemPrice,
+          category : item.category,
+          subcategory : item.subcategory,
+          salesDate : item.salesDate,
+          size: item.size,
+
+        })
       },
 
       closeDetail() {
-        this.showDetail = false
+        this.$modal.hide('book-detail')
       },
     }
 }
