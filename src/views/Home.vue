@@ -4,6 +4,7 @@
       <originalHeader></originalHeader>
       <heroComponent />
       <cover />
+      <detail />
       <futter />
     </v-container>
   </v-app>
@@ -12,6 +13,7 @@
 <script>
 import originalHeader from "@/components/OriginalHeader.vue";
 import cover from "@/components/Cover.vue";
+import detail from "@/components/Detail.vue";
 import heroComponent from "@/components/HeroComponent.vue";
 import futter from "@/components/Futter.vue";
 
@@ -20,6 +22,7 @@ export default {
   components: {
     originalHeader,
     cover,
+    detail,
     heroComponent,
     futter,
   },

@@ -143,12 +143,24 @@ export default {
       },
 
       openDetail(item) {
-        this.showDetail = true
-        this.content = item
+        this.$modal.show('book-detail', {
+          title: item.title,
+          author: item.author,
+          itemCaption: item.itemCaption,
+          largeImageUrl:item.largeImageUrl,
+          itemUrl : item.itemUrl, // 楽天ブックスのURL
+          publisherName: item.publisherName,
+          isbn : item.isbn,
+          itemPrice : item.itemPrice,
+          category : item.category,
+          subcategory : item.subcategory,
+          salesDate : item.salesDate,
+          size: item.size,
+        })
       },
 
       closeDetail() {
-        this.showDetail = false
+        this.$modal.hide('book-detail')
       },
       assignColor(item) {
         return "book-nav-items" + String(this.coverColorType[item.category]);
