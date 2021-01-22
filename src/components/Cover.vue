@@ -5,7 +5,7 @@
     <v-img v-bind:class="[book_class, book_type[item.size]]" 
       v-for="(item, key) in items" :key="key" :src="item.largeImageUrl" @click="openDetail(item)"
       alt=""></v-img>
-    <detail :item="content" v-show="showDetail" @close="closeDetail"/>
+ <!--  <detail :item="content" v-show="showDetail" @close="closeDetail"/> -->
     <infinite-loading @infinite="infiniteHandler" spinner="spiral">
       <div slot="spinner">ロード中...</div>
       <div slot="no-more">もう検索データが無いよ！</div>
@@ -19,13 +19,14 @@ import Vue from "vue";
 import Db from "@/plugins/firestoreUtils.js";
 Vue.use(Db)
 
-import Detail from "@/components/Detail";
+// import Detail from "@/components/Detail";
+
 import OriginalHeader from "@/components/OriginalHeader.vue";
 var items = [];
   
 export default {
     components: {
-      Detail
+      // Detail
     },
     data () {
         return {
@@ -99,12 +100,25 @@ export default {
       },
 
       openDetail(item) {
-        this.showDetail = true
-        this.content = item
+        this.$modal.show('book-detail', {
+          title: item.title,
+          author: item.author,
+          itemCaption: item.itemCaption,
+          largeImageUrl:item.largeImageUrl,
+          itemUrl : item.itemUrl, // 楽天ブックスのURL
+          publisherName: item.publisherName,
+          isbn : item.isbn,
+          itemPrice : item.itemPrice,
+          category : item.category,
+          subcategory : item.subcategory,
+          salesDate : item.salesDate,
+          size: item.size,
+
+        })
       },
 
       closeDetail() {
-        this.showDetail = false
+        this.$modal.hide('book-detail')
       },
     },
     computed: {
