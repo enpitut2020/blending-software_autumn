@@ -6,6 +6,7 @@
       <div class="content">
         <component :is="currentView"></component>
       </div>
+      <detail />
       <futter />
     </v-container>
   </v-app>
@@ -14,6 +15,7 @@
 <script>
 import originalHeader from "@/components/OriginalHeader.vue";
 import cover from "@/components/Cover.vue";
+import detail from "@/components/Detail.vue";
 import backcover from "@/components/BackCover.vue";
 import heroComponent from "@/components/HeroComponent.vue";
 import futter from "@/components/Futter.vue";
@@ -23,6 +25,7 @@ export default {
   components: {
     originalHeader,
     cover,
+    detail,
     backcover,
     heroComponent,
     futter,
