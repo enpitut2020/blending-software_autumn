@@ -21,7 +21,6 @@
               :items="items"
               clearable
               dense
-              multiple
               outlined
               small-chips
               @change="categorySearch"
@@ -42,8 +41,9 @@ const bus = new Vue();
       return {
         bus: bus,
         isBackCover: false,
-        select: [],
+        select: ["指定しない"],
         items: [
+          '指定しない',
           '文庫',
           '新書',
           '小説・エッセイ',

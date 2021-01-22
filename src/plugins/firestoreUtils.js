@@ -22,7 +22,7 @@ const db = firebase.firestore()
 
 const Db = {
   install(Vue) {
-    Vue.prototype.$getBooksData = async function getBooksData() {
+    Vue.prototype.$getBooksData = async function getBooksData() {//category) {
       var last_isbn;
       const booksData = await db
             .collection("test_books")
@@ -53,36 +53,69 @@ const Db = {
       return {data: booksData, last_isbn: last_isbn};
     };
 
-    Vue.prototype.$addBooksData = async function addBooksData(current_last_isbn) {
+    Vue.prototype.$addBooksData = async function addBooksData(current_last_isbn, category) {
       var last_isbn;
-      const booksData = await db
-            .collection("test_books")
-            .orderBy('isbn')
-            .startAfter(current_last_isbn)
-            .limit(20)
-            .get()
-            .then(querySnapshot => {
-              console.debug("キャッシュからデータを取得しました");
-              const booksData = [];
-              querySnapshot.forEach(data => {
-                // 配列
-                booksData.push(data.data());
-                // object
-                // booksData[data.id] = data.data();
+      // カテゴリ指定がない場合
+      if (category === "指定しない" || category === "") {
+        const booksData = await db
+              .collection("test_books")
+              .orderBy('isbn')
+              .startAfter(current_last_isbn)
+              .limit(20)
+              .get()
+              .then(querySnapshot => {
+                console.debug("キャッシュからデータを取得しました");
+                const booksData = [];
+                querySnapshot.forEach(data => {
+                  // 配列
+                  booksData.push(data.data());
+                  // object
+                  // booksData[data.id] = data.data();
+                });
+                // 最後尾の書籍のISBNを保存
+                last_isbn = booksData[booksData.length-1].isbn
+                // booksDataをランダムにシャッフル
+                for (let i = booksData.length - 1; i >= 0; i--) {
+                  const randomNumber = Math.floor(Math.random() * (i + 1));
+                  [booksData[i], booksData[randomNumber]] = [booksData[randomNumber], booksData[i]];
+                 }
+                return booksData;
+              })
+              .catch(()=>{
+                alert("firestoreからのデータの取得でエラーが発生しました")
               });
-              // 最後尾の書籍のISBNを保存
-              last_isbn = booksData[booksData.length-1].isbn
-              // booksDataをランダムにシャッフル
-              for (let i = booksData.length - 1; i >= 0; i--) {
-                const randomNumber = Math.floor(Math.random() * (i + 1));
-                [booksData[i], booksData[randomNumber]] = [booksData[randomNumber], booksData[i]];
-               }
-              return booksData;
-            })
-            .catch(()=>{
-              alert("firestoreからのデータの取得でエラーが発生しました")
-            });
-      return {data: booksData, last_isbn: last_isbn};
+        return {data: booksData, last_isbn: last_isbn};
+      } else {
+        const booksData = await db
+              .collection("test_books")
+              .orderBy('isbn')
+              .startAfter(current_last_isbn)
+              .limit(20)
+              .where("category", "==", category)
+              .get()
+              .then(querySnapshot => {
+                console.debug("キャッシュからデータを取得しました");
+                const booksData = [];
+                querySnapshot.forEach(data => {
+                  // 配列
+                  booksData.push(data.data());
+                  // object
+                  // booksData[data.id] = data.data();
+                });
+                // 最後尾の書籍のISBNを保存
+                last_isbn = booksData[booksData.length-1].isbn
+                // booksDataをランダムにシャッフル
+                for (let i = booksData.length - 1; i >= 0; i--) {
+                  const randomNumber = Math.floor(Math.random() * (i + 1));
+                  [booksData[i], booksData[randomNumber]] = [booksData[randomNumber], booksData[i]];
+                 }
+                return booksData;
+              })
+              .catch(()=>{
+                alert("firestoreからのデータの取得でエラーが発生しました")
+              });
+        return {data: booksData, last_isbn: last_isbn};
+      }
     };
 
     Vue.prototype.$getUsersData = async function getUsersData() {

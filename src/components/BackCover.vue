@@ -1,7 +1,7 @@
 <template>
     <div>
       <ColorTips />
-      <ul v-for="(row_items, row_key) in reshapeItems(displayItems)" :key="row_key" class="book-nav">
+      <ul v-for="(row_items, row_key) in reshapeItems(backCover_items)" :key="row_key" class="book-nav">
         <div>
         <li v-for="(item, item_key) in row_items" :key="item_key" 
         :class="assignColor(item)"
@@ -47,6 +47,7 @@ export default {
           showDetail: false,
           tooltip_show: false,
           content: "",
+          select: "",
           fittyOptions: {
             minSize: 1,
             maxSize: 15,
@@ -58,8 +59,8 @@ export default {
             "単行本": 1.24, 
             "文庫": 1.00,  
             "新書": 1.24, 
-            '全集・双書':1.00,
-            '事・辞典':1.00,
+            '全集・双書':1.10,
+            '事・辞典':1.20,
             '図鑑':1.80,
             '絵本':1.80,
             'カセット,CDなど':1.00,
@@ -93,18 +94,17 @@ export default {
             'バーゲン本': 5,
             '楽譜': 5,
           },
-          displayItems: this.items,
         }
     },
     mounted: function() {
-      OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
-      this.displayItems = this.backCover_items
+      OriginalHeader.data().bus.$on('change-category', this.categoryFilter); // カテゴリ変更があった場合に、表示済みの書籍を該当カテゴリのみの書籍にする。
+      OriginalHeader.data().bus.$on('change-category', this.addData);
     },
     methods: {
       infiniteHandler($state) {
         const old_items_len = this.backCover_items.length
         setTimeout(() => {
-          this.addData()
+          this.addData(this.select)
           this.$emit('update:items', this.backCover_items)
           this.$emit('update:last_isbn', this.backCover_last_isbn)
           $state.loaded();
@@ -116,30 +116,29 @@ export default {
         }
       },
 
-      addData() {
+      addData(select) {
         const l = this.backCover_items.length
         console.log(l)
-        this.$addBooksData(this.last_isbn).then((books) => {
+        this.select = select;
+        this.$addBooksData(this.last_isbn, select).then((books) => {
           this.backCover_items = this.backCover_items.concat(books.data)
-          this.displayItems = this.backCover_items
           this.backCover_last_isbn = books.last_isbn
         });
       },
 
-      displayCategoryData: function(select) {
-        this.select = select;
-        this.displayItems = this.categoryFilter()
-      },
-
-      categoryFilter() {
-        if (this.select.length === 0) {
-          return this.backCover_items;
+      categoryFilter () {
+        // filter内の関数に用いるために変数を再度用意
+        const select = select;
+        if (select !== "指定しない" && select !== "") {
+          this.backCover_items = this.backCover_items.filter(function(item) {
+            return [select].includes(item.category);
+          })
+        } else {
+          this.$getBooksData().then((books) => {
+            this.backCover_items = books.data
+            this.last_isbn = books.last_isbn
+          });
         }
-
-        var selectedCategory = this.select;
-        return this.backCover_items.filter(function (item) {
-          return selectedCategory.includes(item.category)
-        })
       },
 
       openDetail(item) {

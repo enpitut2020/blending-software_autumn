@@ -30,7 +30,6 @@ Vue.use(Db)
 
 import OriginalHeader from "@/components/OriginalHeader.vue";
 import BackCover from "@/components/BackCover.vue";
-var items = [];
   
 export default {
     components: {
@@ -53,10 +52,9 @@ export default {
                       'コミック':'size_c',
                       'ムックその他':'size_e'},
           content: "",
-          select: [],
+          select: "",
           items: [],
           last_isbn: 0,
-          displayItems: items,
           isBackCover: false,
         }
     },
@@ -68,14 +66,30 @@ export default {
       });
     },
     mounted: function() {
-      OriginalHeader.data().bus.$on('change-category', this.displayCategoryData)
+      OriginalHeader.data().bus.$on('change-category', this.categoryFilter); // カテゴリ変更があった場合に、表示済みの書籍を該当カテゴリのみの書籍にする。
+      OriginalHeader.data().bus.$on('change-category', this.addData);
       OriginalHeader.data().bus.$on('isBackCover', this.switchDisplay)
     },
     methods: {
+      categoryFilter () {
+        // filter内の関数に用いるために変数を再度用意
+        const select = select;
+        if (select !== "指定しない" && select !== "") {
+          this.items = this.items.filter(function(item) {
+            return [select].includes(item.category);
+          })
+        } else {
+          this.$getBooksData().then((books) => {
+            this.items = books.data
+            this.last_isbn = books.last_isbn
+          });
+        }
+      },
+
       infiniteHandler($state) {
         const old_items_len = this.items.length
         setTimeout(() => {
-          this.addData()
+          this.addData(this.select);
           $state.loaded();
         }, 1500)
         const new_items_len = this.items.length
@@ -85,33 +99,18 @@ export default {
         }
       },
 
-      addData() {
+      addData(select) {
         const l = this.items.length
         console.log(l)
-        this.$addBooksData(this.last_isbn).then((books) => {
-          this.items = this.items.concat(books.data)
-          this.last_isbn = books.last_isbn
-        });
-      },
-
-      displayCategoryData: function(select) {
         this.select = select;
-        this.displayItems = this.categoryFilter()
+        this.$addBooksData(this.last_isbn, select).then((books) => {
+            this.items = this.items.concat(books.data)
+            this.last_isbn = books.last_isbn
+        });  
       },
 
       switchDisplay: function(isBackCover) {
         this.isBackCover = isBackCover;
-      },
-
-      categoryFilter() {
-        if (this.select.length === 0) {
-          return items;
-        }
-
-        var selectedCategory = this.select;
-        return items.filter(function (item) {
-          return selectedCategory.includes(item.category)
-        })
       },
 
       openDetail(item) {
@@ -135,13 +134,6 @@ export default {
       closeDetail() {
         this.$modal.hide('book-detail')
       },
-    },
-    computed: {
-      categoryItems: function() {
-        return this.items.filter(function (item) {
-          return OriginalHeader.data().select.includes(item.category)
-        })
-      }
     }
 }
 
