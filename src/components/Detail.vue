@@ -26,9 +26,9 @@
             <!-- {{itemCaption | truncate(ページ番号}} でそのページのあらすじを表示 -->
 
             <!-- 1ページ目 -->
-            <div v-bind:class='isDark? flip_page_double_summary_even_dark:flip_page_double_summary_even_light'>
+            <div v-if="pageNum >= 1" v-bind:class='isDark? flip_page_double_summary_even_dark:flip_page_double_summary_even_light'>
             <div v-if="isVertical">
-               <div class="vertical">
+               <div v-if="wordNum >= 1" class="vertical">
                   {{ itemCaption | truncateFirstPage(1) }}
 
                  <!-- あらすじが1ページ (約130字) を超える時に"次ページへ続く"を表示            -->
@@ -38,22 +38,250 @@
                    </span>
                  </p>
                </div>
+               <div v-else class="book-info">
+                  <!-- marginで指定するとなんかずれるからh4にしてる -->
+                  <h4 style="text-align: center; font-weight: normal; margin-bottom: 10px;margin-top: 5px;">
+                      === 書籍情報 ===
+                  </h4>
+
+                          <!-- タイトル -->
+                  <div class="title" style="line-height: 1rem; display: flex; margin-bottom: 8px">
+                    <span class="attribute">
+                      タイトル:
+                    </span>
+                    <span v-if="isDark">
+                      <button type="button"><img class="clippy-author" src="../assets/clippy_dark.svg" v-on:click="onCopy(title)"/></button>
+                    </span>
+                    <span v-else>
+                      <button type="button"><img class="clippy-author" src="../assets/clippy.svg" v-on:click="onCopy(title)"/></button>
+                    </span>
+                    <div style="font-size: 14px; text-align: left;">
+                      {{ title }}
+                    </div>
+                  </div>
+
+                          <!-- 著者 -->
+                  <div class="author">
+                    <span class="attribute">
+                      著者:
+                    </span>
+                    <span v-if="isDark">
+                      <button type="button"><img class="clippy-author" src="../assets/clippy_dark.svg" v-on:click="onCopy(author)"/></button>
+                    </span>
+                    <span v-else>
+                      <button type="button"><img class="clippy-author" src="../assets/clippy.svg" v-on:click="onCopy(author)"/></button>
+                    </span>
+                    <a style="color: #4c9eeb; font-size: 14px;margin-left: 3px" v-bind:href="'https://ja.wikipedia.org/w/index.php?search=' + removeSpace(author) + '&title=%E7%89%B9%E5%88%A5%3A%E6%A4%9C%E7%B4%A2&go=%E8%A1%A8%E7%A4%BA&ns0=1'" target="_blank" rel="noopener noreferrer">
+                      {{ author }}
+                    </a>
+                  </div>
+
+                          <!-- isbn -->
+                  <div class="isbn">
+                    <span class="attribute">
+                      ISBN:
+                    </span>
+                    <span v-if="isDark">
+                      <button type="button"><img class="clippy-author" src="../assets/clippy_dark.svg" v-on:click="onCopy(isbn)"/></button>
+                    </span>
+                    <span v-else>
+                      <button type="button"><img class="clippy-author" src="../assets/clippy.svg" v-on:click="onCopy(isbn)"/></button>
+                    </span>
+                    <div style="font-size: 14px; text-align: left;">
+                      {{ isbn }}
+                    </div>
+                  </div>
+
+                          <!-- 出版社 -->
+                  <div class="publisher">
+                    <span class="attribute">
+                      出版社:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ publisherName }}
+                    </div>
+                  </div>
+
+                          <!-- 発売日 -->
+                  <div class="sales-date">
+                    <span class="attribute">
+                      発売日:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ salesDate }}
+                    </div>
+                  </div>
+
+                          <!-- カテゴリ -->
+                  <div class="category">
+                    <span class="attribute">
+                      カテゴリ:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ category }}
+                    </div>
+                  </div>
+
+                          <!-- サブカテゴリ -->
+                  <div class="category">
+                    <span class="attribute">
+                      サブカテゴリ:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ subcategory }}
+                    </div>
+                  </div>
+
+                          <!-- 価格目安 -->
+                  <div class="price">
+                    <span class="attribute">
+                    価格目安:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ itemPrice }}円
+                    </div>
+                  </div>
+
+                          <!-- 書籍サイズ -->
+                  <div class="book-size">
+                    <span class="attribute">
+                      書籍サイズ:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ size }}
+                    </div>
+                  </div>
+                </div>
             </div>
             <div v-else>
-              <div class="summary">
+              <div  v-if="wordNum >= 1" class="summary">
                 {{ itemCaption | truncateFirstPage(1) }}
-              </div>
               <!-- あらすじが1ページ (約130字) を超える時に"次ページへ続く"を表示            -->
               <p>
                 <span style="margin-left: auto; margin-right: 5px;  float: right; text-align: right;">
                   {{ isExistNextPage(itemCaption) }}
                 </span>
               </p>
+              </div>
+              <div v-else class="book-info">
+                  <!-- marginで指定するとなんかずれるからh4にしてる -->
+                  <h4 style="text-align: center; font-weight: normal; margin-bottom: 10px;margin-top: 5px;">
+                      === 書籍情報 ===
+                  </h4>
+
+                 <!-- タイトル -->
+                  <div class="title" style="line-height: 1rem; display: flex; margin-bottom: 8px">
+                    <span class="attribute">
+                      タイトル:
+                    </span>
+                    <span v-if="isDark">
+                      <button type="button"><img class="clippy-author" src="../assets/clippy_dark.svg" v-on:click="onCopy(title)"/></button>
+                    </span>
+                    <span v-else>
+                      <button type="button"><img class="clippy-author" src="../assets/clippy.svg" v-on:click="onCopy(title)"/></button>
+                    </span>
+                    <div style="font-size: 14px; text-align: left;">
+                      {{ title }}
+                    </div>
+                  </div>
+
+                 <!-- 著者 -->
+                  <div class="author">
+                    <span class="attribute">
+                      著者:
+                    </span>
+                    <span v-if="isDark">
+                      <button type="button"><img class="clippy-author" src="../assets/clippy_dark.svg" v-on:click="onCopy(author)"/></button>
+                    </span>
+                    <span v-else>
+                      <button type="button"><img class="clippy-author" src="../assets/clippy.svg" v-on:click="onCopy(author)"/></button>
+                    </span>
+                    <a style="color: #4c9eeb; font-size: 14px;margin-left: 3px" v-bind:href="'https://ja.wikipedia.org/w/index.php?search=' + removeSpace(author) + '&title=%E7%89%B9%E5%88%A5%3A%E6%A4%9C%E7%B4%A2&go=%E8%A1%A8%E7%A4%BA&ns0=1'" target="_blank" rel="noopener noreferrer">
+                      {{ author }}
+                    </a>
+                  </div>
+
+                 <!-- isbn -->
+                  <div class="isbn">
+                    <span class="attribute">
+                      ISBN:
+                    </span>
+                    <span v-if="isDark">
+                      <button type="button"><img class="clippy-author" src="../assets/clippy_dark.svg" v-on:click="onCopy(isbn)"/></button>
+                    </span>
+                    <span v-else>
+                      <button type="button"><img class="clippy-author" src="../assets/clippy.svg" v-on:click="onCopy(isbn)"/></button>
+                    </span>
+                    <div style="font-size: 14px; text-align: left;">
+                      {{ isbn }}
+                    </div>
+                  </div>
+
+                 <!-- 出版社 -->
+                  <div class="publisher">
+                    <span class="attribute">
+                      出版社:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ publisherName }}
+                    </div>
+                  </div>
+
+                 <!-- 発売日 -->
+                  <div class="sales-date">
+                    <span class="attribute">
+                      発売日:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ salesDate }}
+                    </div>
+                  </div>
+
+                 <!-- カテゴリ -->
+                  <div class="category">
+                    <span class="attribute">
+                      カテゴリ:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ category }}
+                    </div>
+                  </div>
+
+                 <!-- サブカテゴリ -->
+                  <div class="category">
+                    <span class="attribute">
+                      サブカテゴリ:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ subcategory }}
+                    </div>
+                  </div>
+
+                 <!-- 価格目安 -->
+                  <div class="price">
+                    <span class="attribute">
+                    価格目安:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ itemPrice }}円
+                    </div>
+                  </div>
+
+                 <!-- 書籍サイズ -->
+                  <div class="book-size">
+                    <span class="attribute">
+                      書籍サイズ:
+                    </span>
+                    <div style="font-size: 14px; text-align: left;margin-left: 3px">
+                      {{ size }}
+                    </div>
+                  </div>
+                </div>
              </div>
             </div>
 
             <!-- 2ページ目 -->
-            <div v-bind:class='isDark? flip_page_double_summary_odd_dark:flip_page_double_summary_odd_light'>
+            <div v-if="pageNum >= 2" v-bind:class='isDark? flip_page_double_summary_odd_dark:flip_page_double_summary_odd_light'>
               <div v-if="isVertical">
                 <div class="vertical">
                   {{ itemCaption | truncate(2) }}
@@ -71,7 +299,7 @@
             </div>
 
             <!-- 3ページ目 -->
-            <div v-bind:class='isDark? flip_page_double_summary_even_dark:flip_page_double_summary_even_light'>
+            <div v-if="pageNum >= 3" v-bind:class='isDark? flip_page_double_summary_even_dark:flip_page_double_summary_even_light'>
               <div v-if="isVertical">
                 <div v-if="wordNum >= 292" class="vertical">
                   {{ itemCaption | truncate(3) }}
@@ -834,6 +1062,10 @@ export default {
     },
 
     calcPageNum(itemCaption) {
+      if (String(itemCaption) === "") {
+        return 1
+      }
+
       var pageNum = 2
       let wordNum = String(itemCaption).length
       pageNum += wordNum > 137 ? Math.floor((wordNum - 138) / 154) + 1 : 0
