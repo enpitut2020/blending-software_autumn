@@ -12,9 +12,9 @@
       alt=""></v-img>
  <!--  <detail :item="content" v-show="showDetail" @close="closeDetail"/> -->
     <infinite-loading @infinite="infiniteHandler" spinner="spiral">
-      <div slot="spinner">ロード中...</div>
-      <div slot="no-more">もう検索データが無いよ！</div>
-      <div slot="no-results">検索結果が無い！</div>
+      <div slot="spinner" style="color:white">ロード中...</div>
+      <div slot="no-more" style="color:white">もう検索データが無いよ！</div>
+      <div slot="no-results" style="color:white">検索結果が無い！</div>
     </infinite-loading>
   </v-main>
   </template>
@@ -93,7 +93,7 @@ export default {
           $state.loaded();
         }, 1500)
         const new_items_len = this.items.length
-        if (old_items_len != new_items_len &&new_items_len < old_items_len + 20) {
+        if (new_items_len >= 40 || (old_items_len != new_items_len &&new_items_len < old_items_len + 20)) {
           console.log("complete")
           $state.complete();
         }
