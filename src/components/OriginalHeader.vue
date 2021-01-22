@@ -21,7 +21,6 @@
               :items="items"
               clearable
               dense
-              multiple
               outlined
               small-chips
               @change="categorySearch"
@@ -30,28 +29,27 @@
         </v-row>
         </v-container>
         <v-switch v-model="isBackCover" @click="switchCover" :label="'背表紙モード'"></v-switch>
-        <history />
       </v-app-bar>
     </header>
 </template>
 
 <script>
 import Vue from 'vue';
-import history from "@/components/History.vue";
 const bus = new Vue();
   export default {
     data () {
       return {
         bus: bus,
         isBackCover: false,
-        select: [],
+        select: ["指定しない"],
         items: [
+          '指定しない',
           '文庫',
           '新書',
           '小説・エッセイ',
           '人文・思想・社会',
           '美容・暮らし・健康・料理',
-          '旅行・留学',
+          '旅行・留学・アウトドア',
           '科学・技術',
           'ビジネス・経済・就職',
           '資格・検定',
@@ -77,21 +75,11 @@ const bus = new Vue();
     },
     methods: {
       categorySearch: function() {
-        console.log(bus.$on)
         bus.$emit('change-category', this.select);
       },
       switchCover() {
-        if (this.isBackCover) {
-          this.$emit("currentView", "backcover");
-        }
-        else {
-          this.$emit("currentView", "cover");
-        }
-
+        bus.$emit('isBackCover', this.isBackCover)
       }
     },
-    components: {
-        history
-    }
   }
 </script>
