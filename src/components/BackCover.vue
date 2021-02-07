@@ -110,8 +110,7 @@ export default {
           $state.loaded();
         }, 1500)
         const new_items_len = this.backCover_items.length
-        console.log(new_items_len)
-        if (new_items_len >= 40 || (old_items_len != new_items_len && new_items_len < old_items_len + 20)) {
+        if (old_items_len != new_items_len && new_items_len < old_items_len + 20) {
           console.log("complete")
           $state.complete();
         }
