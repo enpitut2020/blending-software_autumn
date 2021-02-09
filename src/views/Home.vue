@@ -3,9 +3,9 @@
     <v-container>
       <originalHeader></originalHeader>
       <heroComponent />
+      <futter />
       <cover />
       <detail />
-      <futter />
     </v-container>
   </v-app>
 </template>
